@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:adobe_xd/pinned.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class FYDServerListHeader extends StatelessWidget {
   FYDServerListHeader({
-    Key key,
+    Key? key,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -12,23 +11,25 @@ class FYDServerListHeader extends StatelessWidget {
       children: <Widget>[
         // Adobe XD layer: 'Background' (shape)
         Container(
+          width: 390.0,
+          height: 55.0,
           color: const Color(0xffffffff),
         ),
-        Pinned.fromPins(
-          Pin(size: 24.0, end: 21.0),
-          Pin(size: 24.0, middle: 0.4516),
-          child:
-              // Adobe XD layer: 'Search Icon' (shape)
-              SvgPicture.string(
-            _svg_uzxn9d,
-            allowDrawingOutsideViewBox: true,
-            fit: BoxFit.fill,
+        Transform.translate(
+          offset: Offset(345.0, 14.0),
+          child: SizedBox(
+            width: 24.0,
+            height: 24.0,
+            child: SvgPicture.string(
+              _svg_uzxn9d,
+              allowDrawingOutsideViewBox: true,
+            ),
           ),
         ),
-        Center(
+        Transform.translate(
+          offset: Offset(64.0, 11.0),
           child: SizedBox(
-            width: 134.0,
-            height: 33.0,
+            width: 262.0,
             child: Text(
               'Server List',
               style: TextStyle(

@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:adobe_xd/pinned.dart';
 
-class FYDIDComponent extends StatelessWidget {
-  FYDIDComponent({
+class FYDPWComponent extends StatelessWidget {
+  FYDPWComponent({
     Key? key,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: <Widget>[
-        // Adobe XD layer: 'ID' (text)
+        // Adobe XD layer: 'PW' (text)
         SizedBox(
           width: 318.0,
           child: Text(
-            'ID',
+            'PW',
             style: TextStyle(
               fontFamily: 'Apple SD Gothic Neo',
               fontSize: 25,
@@ -22,12 +21,13 @@ class FYDIDComponent extends StatelessWidget {
             ),
           ),
         ),
-        Pinned.fromPins(
-          Pin(start: 0.0, end: 0.0),
-          Pin(size: 50.0, end: 0.0),
+        Transform.translate(
+          offset: Offset(0.0, 31.0),
           child:
               // Adobe XD layer: 'Rectangle' (shape)
               Container(
+            width: 318.0,
+            height: 50.0,
             decoration: BoxDecoration(
               color: const Color(0xffffffff),
               borderRadius: BorderRadius.circular(25.0),
@@ -49,7 +49,7 @@ class FYDIDComponent extends StatelessWidget {
               SizedBox(
             width: 277.0,
             child: Text(
-              'ID',
+              'PW',
               style: TextStyle(
                 fontFamily: 'Apple SD Gothic Neo',
                 fontSize: 25,

@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:adobe_xd/pinned.dart';
 import './fydok_button.dart';
 
 class FYDLoginFail extends StatelessWidget {
   FYDLoginFail({
-    Key key,
+    Key? key,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -27,28 +26,23 @@ class FYDLoginFail extends StatelessWidget {
             ),
             margin: EdgeInsets.all(10.0),
           ),
-          Align(
-            alignment: Alignment(0.0, -0.366),
-            child: SizedBox(
-              width: 224.0,
-              height: 34.0,
-              child:
-                  // Adobe XD layer: 'Title' (text)
-                  Text(
-                'Failed to proceed',
-                style: TextStyle(
-                  fontFamily: 'SF Pro',
-                  fontSize: 28,
-                  color: const Color(0xff000000),
-                  fontWeight: FontWeight.w700,
-                ),
-                softWrap: false,
+          Transform.translate(
+            offset: Offset(48.0, 78.0),
+            child:
+                // Adobe XD layer: 'Title' (text)
+                Text(
+              'Failed to proceed',
+              style: TextStyle(
+                fontFamily: 'SF Pro',
+                fontSize: 28,
+                color: const Color(0xff000000),
+                fontWeight: FontWeight.w700,
               ),
+              softWrap: false,
             ),
           ),
-          Pinned.fromPins(
-            Pin(start: 23.0, end: 23.0),
-            Pin(size: 24.0, middle: 0.5),
+          Transform.translate(
+            offset: Offset(23.0, 128.0),
             child: Text(
               'Check your input and try again',
               style: TextStyle(
@@ -60,8 +54,8 @@ class FYDLoginFail extends StatelessWidget {
               softWrap: false,
             ),
           ),
-          Align(
-            alignment: Alignment(0.0, 0.461),
+          Transform.translate(
+            offset: Offset(85.0, 168.0),
             child: SizedBox(
               width: 150.0,
               height: 50.0,

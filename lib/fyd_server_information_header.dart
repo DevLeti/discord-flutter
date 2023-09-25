@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import './fyd_server_list_header.dart';
-import 'package:adobe_xd/pinned.dart';
 import './fyd_main.dart';
 import 'package:adobe_xd/page_link.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class FYDServerInformationHeader extends StatelessWidget {
   FYDServerInformationHeader({
-    Key key,
+    Key? key,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -15,24 +14,26 @@ class FYDServerInformationHeader extends StatelessWidget {
       children: <Widget>[
         // Adobe XD layer: 'Server List Header' (component)
         FYDServerListHeader(),
-        Pinned.fromPins(
-          Pin(size: 11.1, start: 21.0),
-          Pin(size: 18.0, middle: 0.5),
-          child:
-              // Adobe XD layer: 'Icon material-navig…' (shape)
-              PageLink(
-            links: [
-              PageLinkInfo(
-                transition: LinkTransition.SlideRight,
-                ease: Curves.easeOut,
-                duration: 0.3,
-                pageBuilder: () => FYDMain(),
+        Transform.translate(
+          offset: Offset(21.0, 18.5),
+          child: SizedBox(
+            width: 11.0,
+            height: 18.0,
+            child:
+                // Adobe XD layer: 'Icon material-navig…' (shape)
+                PageLink(
+              links: [
+                PageLinkInfo(
+                  transition: LinkTransition.SlideRight,
+                  ease: Curves.easeOut,
+                  duration: 0.3,
+                  pageBuilder: () => FYDMain(),
+                ),
+              ],
+              child: SvgPicture.string(
+                _svg_yd4f5s,
+                allowDrawingOutsideViewBox: true,
               ),
-            ],
-            child: SvgPicture.string(
-              _svg_yd4f5s,
-              allowDrawingOutsideViewBox: true,
-              fit: BoxFit.fill,
             ),
           ),
         ),

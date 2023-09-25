@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:adobe_xd/pinned.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class FYDServer extends StatelessWidget {
   FYDServer({
-    Key key,
+    Key? key,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -12,6 +11,8 @@ class FYDServer extends StatelessWidget {
       children: <Widget>[
         // Adobe XD layer: 'Element Background' (shape)
         Container(
+          width: 365.0,
+          height: 95.0,
           decoration: BoxDecoration(
             color: const Color(0xffffffff),
             borderRadius: BorderRadius.circular(29.0),
@@ -24,70 +25,74 @@ class FYDServer extends StatelessWidget {
             ],
           ),
         ),
-        Pinned.fromPins(
-          Pin(size: 11.1, end: 26.9),
-          Pin(size: 18.0, middle: 0.5),
-          child:
-              // Adobe XD layer: 'next-icon' (shape)
-              SvgPicture.string(
-            _svg_pmicgj,
-            allowDrawingOutsideViewBox: true,
-            fit: BoxFit.fill,
+        Transform.translate(
+          offset: Offset(327.0, 38.5),
+          child: SizedBox(
+            width: 11.0,
+            height: 18.0,
+            child: SvgPicture.string(
+              _svg_pmicgj,
+              allowDrawingOutsideViewBox: true,
+            ),
           ),
         ),
-        Pinned.fromPins(
-          Pin(size: 122.0, start: 25.0),
-          Pin(size: 28.0, middle: 0.3731),
+        Transform.translate(
+          offset: Offset(25.0, 25.0),
           child:
               // Adobe XD layer: 'Title' (text)
-              Text(
-            '서버 타이틀',
-            style: TextStyle(
-              fontFamily: 'SF Pro',
-              fontSize: 22,
-              color: const Color(0xff000000),
-              fontWeight: FontWeight.w700,
+              SizedBox(
+            width: 122.0,
+            child: Text(
+              '서버 타이틀',
+              style: TextStyle(
+                fontFamily: 'SF Pro',
+                fontSize: 22,
+                color: const Color(0xff000000),
+                fontWeight: FontWeight.w700,
+              ),
             ),
           ),
         ),
-        Pinned.fromPins(
-          Pin(size: 42.0, start: 280.0),
-          Pin(size: 18.0, middle: 0.5065),
+        Transform.translate(
+          offset: Offset(280.0, 39.0),
           child:
               // Adobe XD layer: 'Like Count' (text)
-              Text(
-            '127',
-            style: TextStyle(
-              fontFamily: 'SF Pro',
-              fontSize: 15,
-              color: const Color(0x67000000),
-              fontWeight: FontWeight.w700,
+              SizedBox(
+            width: 42.0,
+            child: Text(
+              '127',
+              style: TextStyle(
+                fontFamily: 'SF Pro',
+                fontSize: 15,
+                color: const Color(0x67000000),
+                fontWeight: FontWeight.w700,
+              ),
             ),
           ),
         ),
-        Pinned.fromPins(
-          Pin(size: 266.0, start: 25.0),
-          Pin(size: 19.0, middle: 0.6974),
+        Transform.translate(
+          offset: Offset(25.0, 53.0),
           child:
               // Adobe XD layer: 'Tag' (text)
-              Text(
-            '#잡담 #게임 #스터디',
-            style: TextStyle(
-              fontFamily: 'SF Pro',
-              fontSize: 15,
-              color: const Color(0x67000000),
-              fontWeight: FontWeight.w700,
+              SizedBox(
+            width: 266.0,
+            child: Text(
+              '#잡담 #게임 #스터디',
+              style: TextStyle(
+                fontFamily: 'SF Pro',
+                fontSize: 15,
+                color: const Color(0x67000000),
+                fontWeight: FontWeight.w700,
+              ),
             ),
           ),
         ),
-        Align(
-          alignment: Alignment(0.503, 0.007),
+        Transform.translate(
+          offset: Offset(266.0, 43.0),
           child: SizedBox(
             width: 11.0,
             height: 10.0,
-            child:
-                // Adobe XD layer: 'heart-icon' (shape)
-                SvgPicture.string(
+            child: SvgPicture.string(
               _svg_jn915,
               allowDrawingOutsideViewBox: true,
             ),

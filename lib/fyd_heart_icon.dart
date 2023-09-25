@@ -3,7 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 class FYDHeartIcon extends StatelessWidget {
   FYDHeartIcon({
-    Key key,
+    Key? key,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {

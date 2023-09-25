@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class FYDLoginButton extends StatelessWidget {
   FYDLoginButton({
-    Key key,
+    Key? key,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -10,6 +10,8 @@ class FYDLoginButton extends StatelessWidget {
       children: <Widget>[
         // Adobe XD layer: 'Rectangle' (shape)
         Container(
+          width: 150.0,
+          height: 50.0,
           decoration: BoxDecoration(
             color: const Color(0xffffffff),
             borderRadius: BorderRadius.circular(25.0),
@@ -23,20 +25,17 @@ class FYDLoginButton extends StatelessWidget {
             ],
           ),
         ),
-        Center(
-          child: SizedBox(
-            width: 66.0,
-            height: 32.0,
-            child: Text(
-              'Login',
-              style: TextStyle(
-                fontFamily: 'Apple SD Gothic Neo',
-                fontSize: 27,
-                color: const Color(0xff5865f2),
-                fontWeight: FontWeight.w700,
-              ),
-              softWrap: false,
+        Transform.translate(
+          offset: Offset(43.0, 10.0),
+          child: Text(
+            'Login',
+            style: TextStyle(
+              fontFamily: 'SF Pro',
+              fontSize: 25,
+              color: const Color(0xff5865f2),
+              fontWeight: FontWeight.w700,
             ),
+            softWrap: false,
           ),
         ),
       ],

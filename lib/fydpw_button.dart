@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class FYDAddServerButton extends StatelessWidget {
-  FYDAddServerButton({
+class FYDPWButton extends StatelessWidget {
+  FYDPWButton({
     Key? key,
   }) : super(key: key);
   @override
@@ -10,11 +10,12 @@ class FYDAddServerButton extends StatelessWidget {
       children: <Widget>[
         // Adobe XD layer: 'Rectangle' (shape)
         Container(
-          width: 318.0,
+          width: 150.0,
           height: 50.0,
           decoration: BoxDecoration(
-            color: const Color(0xff5965f2),
+            color: const Color(0xffffffff),
             borderRadius: BorderRadius.circular(25.0),
+            border: Border.all(width: 1.0, color: const Color(0xff707070)),
             boxShadow: [
               BoxShadow(
                 color: const Color(0x29000000),
@@ -25,15 +26,15 @@ class FYDAddServerButton extends StatelessWidget {
           ),
         ),
         Transform.translate(
-          offset: Offset(89.0, 9.0),
+          offset: Offset(26.0, 10.0),
           child:
-              // Adobe XD layer: 'Server Title' (text)
+              // Adobe XD layer: 'Register' (text)
               Text(
-            'Add Server',
+            'Register',
             style: TextStyle(
               fontFamily: 'SF Pro',
-              fontSize: 27,
-              color: const Color(0xffffffff),
+              fontSize: 25,
+              color: const Color(0xff5865f2),
               fontWeight: FontWeight.w700,
             ),
             softWrap: false,

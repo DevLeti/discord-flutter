@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class FYDMainBackground extends StatelessWidget {
   FYDMainBackground({
-    Key key,
+    Key? key,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {

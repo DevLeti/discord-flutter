@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class FYDTime extends StatelessWidget {
   FYDTime({
-    Key key,
+    Key? key,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
