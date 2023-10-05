@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import './fydpw_button.dart';
 import './fyd_login_button.dart';
-import './fydpw_component.dart';
+import './fydpw_form.dart';
 import 'package:adobe_xd/pinned.dart';
-import './fydid_component.dart';
+import './fydid_form.dart';
 
 class FYDLogin extends StatelessWidget {
   FYDLogin({
@@ -41,16 +41,16 @@ class FYDLogin extends StatelessWidget {
               width: 318.0,
               height: 81.0,
               child:
-                  // Adobe XD layer: 'PW Component' (component)
-                  FYDPWComponent(),
+                  // Adobe XD layer: 'PW Form' (component)
+                  FYDPWForm(),
             ),
           ),
           Pinned.fromPins(
             Pin(start: 36.0, end: 36.0),
             Pin(size: 81.0, middle: 0.4128),
             child:
-                // Adobe XD layer: 'ID Component' (component)
-                FYDIDComponent(),
+                // Adobe XD layer: 'ID Form' (component)
+                FYDIDForm(),
           ),
           Transform.translate(
             offset: Offset(105.0, 216.0),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'fyd_server_info.dart';
+import 'fyd_login.dart';
 
 void main() {
   runApp(const MyApp());
@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
       //   useMaterial3: true,
       // ),
       // home: const MyHomePage(title: 'Flutter Demo Home Page'),
-      home: FYDServerInfo(),
+      home: FYDLogin(),
     );
   }
 }
