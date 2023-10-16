@@ -36,10 +36,10 @@ class FYDLogin extends StatelessWidget {
             ),
           ),
           Transform.translate(
-            offset: Offset(36.0, 411.0),
+            offset: Offset(36.0, 431.0),
             child: SizedBox(
               width: 318.0,
-              height: 81.0,
+              height: 60.0,
               child:
                   // Adobe XD layer: 'PW Form' (component)
                   FYDPWForm(),
