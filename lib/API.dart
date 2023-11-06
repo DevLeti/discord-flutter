@@ -99,6 +99,240 @@ Future<List> getUserList() async {
   return data;
   // printHttpContentInfo(httpResponse, httpResponseContent);
 }
+// End of User API
+
+// Server API
+// Success: ServerList, Fail: []
+Future<List> getServerList() async {
+  HttpClientRequest httpRequest;
+  HttpClientResponse httpResponse;
+
+  print("|-> Try to get Server list");
+  serverPath = "/api/server/";
+
+  String? token = await storage.read(key: 'token');
+  httpRequest = await httpClient.get(serverIp, serverPort, serverPath)
+    ..headers.add('Authorization', 'Bearer $token');
+  httpResponse = await httpRequest.close();
+  httpResponseContent = await utf8.decoder.bind(httpResponse).join();
+
+  if (httpResponse.statusCode == 200) {
+    return jsonDecode(httpResponseContent);
+  } else {
+    return [];
+  }
+}
+
+// Success: serverDetail, Fail: {}
+Future<Map> getServerDetail(int serverId) async {
+  HttpClientRequest httpRequest;
+  HttpClientResponse httpResponse;
+
+  print("|-> Try to get Server list");
+  serverPath = "/api/server/$serverId/";
+
+  String? token = await storage.read(key: 'token');
+  httpRequest = await httpClient.get(serverIp, serverPort, serverPath)
+    ..headers.add('Authorization', 'Bearer $token');
+  httpResponse = await httpRequest.close();
+  httpResponseContent = await utf8.decoder.bind(httpResponse).join();
+
+  if (httpResponse.statusCode == 200) {
+    return jsonDecode(httpResponseContent);
+  } else {
+    return {};
+  }
+}
+
+// TODO: Tag도 수정 가능하도록 구현
+// Success: 200, Fail: not 200
+Future<int> editServerDetail(int serverId, String serverName, String serverUrl,
+    String serverDescription, List<Map> tags) async {
+  HttpClientRequest httpRequest;
+  HttpClientResponse httpResponse;
+
+  print("|-> Try to edit Server list");
+  Map jsonContent = {
+    'server_name': serverName,
+    'server_url': serverUrl,
+    'server_description': serverDescription
+  };
+  var content = jsonEncode(jsonContent);
+  serverPath = "/api/server/$serverId/";
+
+  String? token = await storage.read(key: 'token');
+  httpRequest = await httpClient.put(serverIp, serverPort, serverPath)
+    ..headers.add('Authorization', 'Bearer $token')
+    ..headers.contentType = ContentType.json
+    ..headers.contentLength = content.length
+    ..write(content);
+  httpResponse = await httpRequest.close();
+  httpResponseContent = await utf8.decoder.bind(httpResponse).join();
+
+  // var data = jsonDecode(httpResponseContent);
+
+  return httpResponse.statusCode;
+}
+
+// Success: 204, Fail: not 204
+Future<int> deleteServer(int serverId) async {
+  HttpClientRequest httpRequest;
+  HttpClientResponse httpResponse;
+
+  print("|-> Try to delete Server list");
+  serverPath = "/api/server/$serverId/";
+
+  String? token = await storage.read(key: 'token');
+  httpRequest = await httpClient.delete(serverIp, serverPort, serverPath)
+    ..headers.add('Authorization', 'Bearer $token')
+    ..headers.contentType = ContentType.json;
+  httpResponse = await httpRequest.close();
+  httpResponseContent = await utf8.decoder.bind(httpResponse).join();
+
+  return httpResponse.statusCode;
+}
+
+// Success: createdServerDetail, Fail: {}
+// TODO: Success일 때 List로 받은 tag 각각 foreach로 create 하도록 설정
+Future<Map> createServer(String serverName, String serverUrl,
+    String serverDescription, List tags) async {
+  HttpClientRequest httpRequest;
+  HttpClientResponse httpResponse;
+
+  print("|-> Try to create Server");
+  Map jsonContent = {
+    'server_name': serverName,
+    'server_url': serverUrl,
+    'server_description': serverDescription
+  };
+  var content = jsonEncode(jsonContent);
+  serverPath = "/api/server/";
+
+  String? token = await storage.read(key: 'token');
+  httpRequest = await httpClient.post(serverIp, serverPort, serverPath)
+    ..headers.add('Authorization', 'Bearer $token')
+    ..headers.contentType = ContentType.json
+    ..write(content);
+  httpResponse = await httpRequest.close();
+  httpResponseContent = await utf8.decoder.bind(httpResponse).join();
+
+  if (httpResponse.statusCode == 201) {
+    // TOOO: tag 각각 create하기
+    return jsonDecode(httpResponseContent);
+  } else {
+    return {};
+  }
+}
+
+// Success: serverList, Fail: []
+Future<List> searchServer(String searchKeyword) async {
+  HttpClientRequest httpRequest;
+  HttpClientResponse httpResponse;
+
+  print("|-> Try to get Server list");
+  serverPath = "/api/search/$searchKeyword/";
+
+  String? token = await storage.read(key: 'token');
+  httpRequest = await httpClient.get(serverIp, serverPort, serverPath)
+    ..headers.add('Authorization', 'Bearer $token');
+  httpResponse = await httpRequest.close();
+  httpResponseContent = await utf8.decoder.bind(httpResponse).join();
+
+  if (httpResponse.statusCode == 200) {
+    return jsonDecode(httpResponseContent);
+  } else {
+    return [];
+  }
+}
+// End of Server API
+
+// Tag API
+Future<List> getTagList() async {
+  HttpClientRequest httpRequest;
+  HttpClientResponse httpResponse;
+
+  print("|-> Try to get Tag list");
+  serverPath = "/api/tag/";
+
+  String? token = await storage.read(key: 'token');
+  httpRequest = await httpClient.get(serverIp, serverPort, serverPath)
+    ..headers.add('Authorization', 'Bearer $token');
+  httpResponse = await httpRequest.close();
+  httpResponseContent = await utf8.decoder.bind(httpResponse).join();
+
+  if (httpResponse.statusCode == 200) {
+    return jsonDecode(httpResponseContent);
+  } else {
+    return [];
+  }
+}
+
+// Success: tag list of serverId, Fail: []
+Future<List> getTagByServerId(int serverId) async {
+  HttpClientRequest httpRequest;
+  HttpClientResponse httpResponse;
+
+  print("|-> Try to get Tag list");
+  serverPath = "/api/tag/$serverId/";
+
+  String? token = await storage.read(key: 'token');
+  httpRequest = await httpClient.get(serverIp, serverPort, serverPath)
+    ..headers.add('Authorization', 'Bearer $token');
+  httpResponse = await httpRequest.close();
+  httpResponseContent = await utf8.decoder.bind(httpResponse).join();
+
+  if (httpResponse.statusCode == 200) {
+    return jsonDecode(httpResponseContent);
+  } else {
+    return [];
+  }
+}
+
+// TODO: 500 bug 수정
+Future<int> deleteTag(int serverId, String tagName) async {
+  HttpClientRequest httpRequest;
+  HttpClientResponse httpResponse;
+
+  print("|-> Try to delete Tag");
+  Map jsonContent = {'tag_name': tagName};
+  var content = jsonEncode(jsonContent);
+  serverPath = "/api/tag/$serverId/";
+
+  String? token = await storage.read(key: 'token');
+  httpRequest = await httpClient.delete(serverIp, serverPort, serverPath)
+    ..headers.add('Authorization', 'Bearer $token')
+    ..headers.contentType = ContentType.json
+    ..write(content);
+  httpResponse = await httpRequest.close();
+  httpResponseContent = await utf8.decoder.bind(httpResponse).join();
+
+  return httpResponse.statusCode;
+}
+
+// TODO: 500 버그 수정
+Future<int> createTag(int serverId, String tagName) async {
+  HttpClientRequest httpRequest;
+  HttpClientResponse httpResponse;
+
+  print("|-> Try to create Tag");
+  Map jsonContent = {'server_id': serverId, 'tag_name': tagName};
+  var content = jsonEncode(jsonContent);
+  serverPath = "/api/tag/";
+
+  String? token = await storage.read(key: 'token');
+  httpRequest = await httpClient.post(serverIp, serverPort, serverPath)
+    ..headers.add('Authorization', 'Bearer $token')
+    ..headers.contentType = ContentType.json
+    ..write(content);
+  httpResponse = await httpRequest.close();
+  httpResponseContent = await utf8.decoder.bind(httpResponse).join();
+
+  return httpResponse.statusCode;
+}
+// End of Tag API
+
+// Like API
+// End of Like API
 
 // Future main() async {
 //   var response = await login('admin', 'admin');
