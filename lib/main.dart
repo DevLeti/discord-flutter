@@ -10,7 +10,7 @@ Future<void> main() async {
     String? token = await storage.read(key: 'token');
     print(refresh);
     print(token);
-    print(await deleteTag(16, 'flutter'));
+    print(await createLike(16));
   }
   runApp(const MyApp());
 }

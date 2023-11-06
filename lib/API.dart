@@ -179,7 +179,7 @@ Future<int> deleteServer(int serverId) async {
   HttpClientRequest httpRequest;
   HttpClientResponse httpResponse;
 
-  print("|-> Try to delete Server list");
+  print("|-> Try to delete Server");
   serverPath = "/api/server/$serverId/";
 
   String? token = await storage.read(key: 'token');
@@ -272,7 +272,7 @@ Future<List> getTagByServerId(int serverId) async {
   HttpClientRequest httpRequest;
   HttpClientResponse httpResponse;
 
-  print("|-> Try to get Tag list");
+  print("|-> Try to get Tag By ServerId");
   serverPath = "/api/tag/$serverId/";
 
   String? token = await storage.read(key: 'token');
@@ -332,6 +332,92 @@ Future<int> createTag(int serverId, String tagName) async {
 // End of Tag API
 
 // Like API
+Future<List> getLikeList() async {
+  HttpClientRequest httpRequest;
+  HttpClientResponse httpResponse;
+
+  print("|-> Try to get Like list");
+  serverPath = "/api/like/";
+
+  String? token = await storage.read(key: 'token');
+  httpRequest = await httpClient.get(serverIp, serverPort, serverPath)
+    ..headers.add('Authorization', 'Bearer $token');
+  httpResponse = await httpRequest.close();
+  httpResponseContent = await utf8.decoder.bind(httpResponse).join();
+
+  if (httpResponse.statusCode == 200) {
+    return jsonDecode(httpResponseContent);
+  } else {
+    return [];
+  }
+}
+
+Future<List> getLikeByServerId(int serverId) async {
+  HttpClientRequest httpRequest;
+  HttpClientResponse httpResponse;
+
+  print("|-> Try to get like By ServerId");
+  serverPath = "/api/like/$serverId/";
+
+  String? token = await storage.read(key: 'token');
+  httpRequest = await httpClient.get(serverIp, serverPort, serverPath)
+    ..headers.add('Authorization', 'Bearer $token');
+  httpResponse = await httpRequest.close();
+  httpResponseContent = await utf8.decoder.bind(httpResponse).join();
+
+  if (httpResponse.statusCode == 200) {
+    return jsonDecode(httpResponseContent);
+  } else {
+    return [];
+  }
+}
+
+// TODO: delete 실패 수정
+Future<int> deleteLike(int serverId) async {
+  HttpClientRequest httpRequest;
+  HttpClientResponse httpResponse;
+
+  print("|-> Try to delete like");
+  Map jsonContent = {
+    'server_id': serverId,
+  };
+  var content = jsonEncode(jsonContent);
+  serverPath = "/api/like/";
+
+  String? token = await storage.read(key: 'token');
+  httpRequest = await httpClient.delete(serverIp, serverPort, serverPath)
+    ..headers.add('Authorization', 'Bearer $token')
+    ..headers.contentType = ContentType.json
+    ..write(content);
+  httpResponse = await httpRequest.close();
+  httpResponseContent = await utf8.decoder.bind(httpResponse).join();
+
+  return httpResponse.statusCode;
+}
+
+// TODO: post 실패 수정
+Future<int> createLike(int serverId) async {
+  HttpClientRequest httpRequest;
+  HttpClientResponse httpResponse;
+
+  print("|-> Try to create like");
+  Map jsonContent = {
+    'server_id': serverId,
+  };
+  var content = jsonEncode(jsonContent);
+  serverPath = "/api/like/";
+
+  String? token = await storage.read(key: 'token');
+  httpRequest = await httpClient.post(serverIp, serverPort, serverPath)
+    ..headers.add('Authorization', 'Bearer $token')
+    ..headers.contentType = ContentType.json
+    ..write(content);
+  httpResponse = await httpRequest.close();
+  httpResponseContent = await utf8.decoder.bind(httpResponse).join();
+
+  return httpResponse.statusCode;
+}
+
 // End of Like API
 
 // Future main() async {
