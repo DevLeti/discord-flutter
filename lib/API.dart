@@ -130,7 +130,7 @@ Future<Map> getServerDetail(int serverId) async {
   HttpClientRequest httpRequest;
   HttpClientResponse httpResponse;
 
-  print("|-> Try to get Server list");
+  print("|-> Try to get Server Detail");
   serverPath = "/api/server/$serverId/";
 
   String? token = await storage.read(key: 'token');
@@ -149,7 +149,7 @@ Future<Map> getServerDetail(int serverId) async {
 // TODO: Tag도 수정 가능하도록 구현
 // Success: ModifiedServerInfo, Fail: {}
 Future<Map> editServerDetail(int serverId, String serverName, String serverUrl,
-    String serverDescription, List<Map> tags) async {
+    String serverDescription, List newTags) async {
   HttpClientRequest httpRequest;
   HttpClientResponse httpResponse;
 
@@ -173,8 +173,29 @@ Future<Map> editServerDetail(int serverId, String serverName, String serverUrl,
 
   // var data = jsonDecode(httpResponseContent);
   if (httpResponse.statusCode == 200) {
-    // TOOO: tag 각각 create하기
-    return jsonDecode(httpResponseContent);
+    // Load old tags
+    List oldTags = await getTagByServerId(serverId);
+
+    // extract old tag names
+    List oldTagNames = List.empty(growable: true);
+    oldTags.forEach((oldTag) {
+      oldTagNames.add(oldTag["tag_name"]);
+    });
+
+    // oldTag is not contained in newTags? Should be deleted : Remained
+    oldTagNames.forEach((oldTag) {
+      if (!newTags.contains(oldTag)) {
+        deleteTag(serverId, oldTag);
+      }
+    });
+
+    // newTag is not contained in oldTags? Should be created : Remained
+    newTags.forEach((newTag) {
+      if (!oldTagNames.contains(newTag)) {
+        createTag(serverId, newTag);
+      }
+    });
+    return await getServerDetail(serverId);
   } else {
     return {};
   }
@@ -199,7 +220,6 @@ Future<int> deleteServer(int serverId) async {
 }
 
 // Success: createdServerDetail, Fail: {}
-// TODO: Success일 때 List로 받은 tag 각각 foreach로 create 하도록 설정
 Future<Map> createServer(String serverName, String serverUrl,
     String serverDescription, List tags) async {
   String? token = await storage.read(key: 'token');
@@ -217,8 +237,10 @@ Future<Map> createServer(String serverName, String serverUrl,
   print('Response body: ${response.body}');
 
   if (response.statusCode == 201) {
-    // TOOO: tag 각각 create하기
-    return jsonDecode(response.body);
+    var serverInfo = jsonDecode(response.body);
+    // Server successfully created. Add tags.
+    tags.forEach((tag) => createTag(serverInfo['server_id'], tag));
+    return serverInfo;
   } else {
     return {};
   }
