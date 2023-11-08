@@ -182,18 +182,18 @@ Future<Map> editServerDetail(int serverId, String serverName, String serverUrl,
     });
 
     // oldTag is not contained in newTags? Should be deleted : Remained
-    oldTagNames.forEach((oldTag) {
+    for (var oldTag in oldTagNames) {
       if (!newTags.contains(oldTag)) {
-        deleteTag(serverId, oldTag);
+        await deleteTag(serverId, oldTag);
       }
-    });
+    }
 
     // newTag is not contained in oldTags? Should be created : Remained
-    newTags.forEach((newTag) {
+    for (var newTag in newTags) {
       if (!oldTagNames.contains(newTag)) {
-        createTag(serverId, newTag);
+        await createTag(serverId, newTag);
       }
-    });
+    }
     return await getServerDetail(serverId);
   } else {
     return {};
