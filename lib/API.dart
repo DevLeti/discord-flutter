@@ -2,9 +2,11 @@
 import 'dart:io';
 import 'dart:convert';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:http/http.dart' as http;
 
 var serverIp = InternetAddress.loopbackIPv4.host;
-// var serverIp = "10.0.2.2";
+var serverIpWithPort = '127.0.0.1:8000';
+// var serverIp = "10.0.2.2"; // localhost for Android Simulator
 var serverPort = 8000;
 var serverPath;
 
@@ -50,7 +52,7 @@ Future<int> register(var username, var password, var password2) async {
   HttpClientRequest httpRequest;
   HttpClientResponse httpResponse;
 
-  print("|-> Try Login");
+  print("|-> Try Register");
   Map jsonContent = {
     'username': username,
     'password': password,
@@ -145,8 +147,8 @@ Future<Map> getServerDetail(int serverId) async {
 }
 
 // TODO: Tag도 수정 가능하도록 구현
-// Success: 200, Fail: not 200
-Future<int> editServerDetail(int serverId, String serverName, String serverUrl,
+// Success: ModifiedServerInfo, Fail: {}
+Future<Map> editServerDetail(int serverId, String serverName, String serverUrl,
     String serverDescription, List<Map> tags) async {
   HttpClientRequest httpRequest;
   HttpClientResponse httpResponse;
@@ -170,8 +172,12 @@ Future<int> editServerDetail(int serverId, String serverName, String serverUrl,
   httpResponseContent = await utf8.decoder.bind(httpResponse).join();
 
   // var data = jsonDecode(httpResponseContent);
-
-  return httpResponse.statusCode;
+  if (httpResponse.statusCode == 200) {
+    // TOOO: tag 각각 create하기
+    return jsonDecode(httpResponseContent);
+  } else {
+    return {};
+  }
 }
 
 // Success: 204, Fail: not 204
@@ -196,29 +202,23 @@ Future<int> deleteServer(int serverId) async {
 // TODO: Success일 때 List로 받은 tag 각각 foreach로 create 하도록 설정
 Future<Map> createServer(String serverName, String serverUrl,
     String serverDescription, List tags) async {
-  HttpClientRequest httpRequest;
-  HttpClientResponse httpResponse;
+  String? token = await storage.read(key: 'token');
 
   print("|-> Try to create Server");
-  Map jsonContent = {
-    'server_name': serverName,
-    'server_url': serverUrl,
-    'server_description': serverDescription
-  };
-  var content = jsonEncode(jsonContent);
-  serverPath = "/api/server/";
+  var url = Uri.http('127.0.0.1:8000', 'api/server/');
+  var response = await http.post(url, headers: {
+    "Authorization": 'Bearer $token'
+  }, body: {
+    "server_name": serverName,
+    "server_url": serverUrl,
+    "server_description": serverDescription
+  });
+  print('Response status: ${response.statusCode}');
+  print('Response body: ${response.body}');
 
-  String? token = await storage.read(key: 'token');
-  httpRequest = await httpClient.post(serverIp, serverPort, serverPath)
-    ..headers.add('Authorization', 'Bearer $token')
-    ..headers.contentType = ContentType.json
-    ..write(content);
-  httpResponse = await httpRequest.close();
-  httpResponseContent = await utf8.decoder.bind(httpResponse).join();
-
-  if (httpResponse.statusCode == 201) {
+  if (response.statusCode == 201) {
     // TOOO: tag 각각 create하기
-    return jsonDecode(httpResponseContent);
+    return jsonDecode(response.body);
   } else {
     return {};
   }
@@ -288,46 +288,33 @@ Future<List> getTagByServerId(int serverId) async {
   }
 }
 
-// TODO: 500 bug 수정
+// Success: 204, Fail: not 204
 Future<int> deleteTag(int serverId, String tagName) async {
-  HttpClientRequest httpRequest;
-  HttpClientResponse httpResponse;
+  String? token = await storage.read(key: 'token');
 
   print("|-> Try to delete Tag");
-  Map jsonContent = {'tag_name': tagName};
-  var content = jsonEncode(jsonContent);
-  serverPath = "/api/tag/$serverId/";
+  var url = Uri.http(serverIpWithPort, 'api/tag/$serverId/');
+  var response = await http.delete(url,
+      headers: {"Authorization": 'Bearer $token'}, body: {"tag_name": tagName});
+  print('Response status: ${response.statusCode}');
+  print('Response body: ${response.body}');
 
-  String? token = await storage.read(key: 'token');
-  httpRequest = await httpClient.delete(serverIp, serverPort, serverPath)
-    ..headers.add('Authorization', 'Bearer $token')
-    ..headers.contentType = ContentType.json
-    ..write(content);
-  httpResponse = await httpRequest.close();
-  httpResponseContent = await utf8.decoder.bind(httpResponse).join();
-
-  return httpResponse.statusCode;
+  return response.statusCode;
 }
 
-// TODO: 500 버그 수정
+// Success: 201, Fail: not 201
 Future<int> createTag(int serverId, String tagName) async {
-  HttpClientRequest httpRequest;
-  HttpClientResponse httpResponse;
+  String? token = await storage.read(key: 'token');
 
   print("|-> Try to create Tag");
-  Map jsonContent = {'server_id': serverId, 'tag_name': tagName};
-  var content = jsonEncode(jsonContent);
-  serverPath = "/api/tag/";
+  var url = Uri.http(serverIpWithPort, 'api/tag/');
+  var response = await http.post(url,
+      headers: {"Authorization": 'Bearer $token'},
+      body: {"server_id": serverId.toString(), "tag_name": tagName});
+  print('Response status: ${response.statusCode}');
+  print('Response body: ${response.body}');
 
-  String? token = await storage.read(key: 'token');
-  httpRequest = await httpClient.post(serverIp, serverPort, serverPath)
-    ..headers.add('Authorization', 'Bearer $token')
-    ..headers.contentType = ContentType.json
-    ..write(content);
-  httpResponse = await httpRequest.close();
-  httpResponseContent = await utf8.decoder.bind(httpResponse).join();
-
-  return httpResponse.statusCode;
+  return response.statusCode;
 }
 // End of Tag API
 
@@ -372,50 +359,34 @@ Future<List> getLikeByServerId(int serverId) async {
   }
 }
 
-// TODO: delete 실패 수정
+// Success: 204, Fail: not 204
 Future<int> deleteLike(int serverId) async {
-  HttpClientRequest httpRequest;
-  HttpClientResponse httpResponse;
+  String? token = await storage.read(key: 'token');
 
   print("|-> Try to delete like");
-  Map jsonContent = {
-    'server_id': serverId,
-  };
-  var content = jsonEncode(jsonContent);
-  serverPath = "/api/like/";
+  var url = Uri.http(serverIpWithPort, 'api/like/');
+  var response = await http.delete(url,
+      headers: {"Authorization": 'Bearer $token'},
+      body: {"server_id": serverId.toString()});
+  print('Response status: ${response.statusCode}');
+  print('Response body: ${response.body}');
 
-  String? token = await storage.read(key: 'token');
-  httpRequest = await httpClient.delete(serverIp, serverPort, serverPath)
-    ..headers.add('Authorization', 'Bearer $token')
-    ..headers.contentType = ContentType.json
-    ..write(content);
-  httpResponse = await httpRequest.close();
-  httpResponseContent = await utf8.decoder.bind(httpResponse).join();
-
-  return httpResponse.statusCode;
+  return response.statusCode;
 }
 
-// TODO: post 실패 수정
+// Success: 201, Fail: not 201
 Future<int> createLike(int serverId) async {
-  HttpClientRequest httpRequest;
-  HttpClientResponse httpResponse;
+  String? token = await storage.read(key: 'token');
 
   print("|-> Try to create like");
-  Map jsonContent = {
-    'server_id': serverId,
-  };
-  var content = jsonEncode(jsonContent);
-  serverPath = "/api/like/";
+  var url = Uri.http(serverIpWithPort, 'api/like/');
+  var response = await http.post(url,
+      headers: {"Authorization": 'Bearer $token'},
+      body: {"server_id": serverId.toString()});
+  print('Response status: ${response.statusCode}');
+  print('Response body: ${response.body}');
 
-  String? token = await storage.read(key: 'token');
-  httpRequest = await httpClient.post(serverIp, serverPort, serverPath)
-    ..headers.add('Authorization', 'Bearer $token')
-    ..headers.contentType = ContentType.json
-    ..write(content);
-  httpResponse = await httpRequest.close();
-  httpResponseContent = await utf8.decoder.bind(httpResponse).join();
-
-  return httpResponse.statusCode;
+  return response.statusCode;
 }
 
 // End of Like API
