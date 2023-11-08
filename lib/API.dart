@@ -146,7 +146,6 @@ Future<Map> getServerDetail(int serverId) async {
   }
 }
 
-// TODO: Tag도 수정 가능하도록 구현
 // Success: ModifiedServerInfo, Fail: {}
 Future<Map> editServerDetail(int serverId, String serverName, String serverUrl,
     String serverDescription, List newTags) async {
@@ -412,16 +411,6 @@ Future<int> createLike(int serverId) async {
 }
 
 // End of Like API
-
-// Future main() async {
-//   var response = await login('admin', 'admin');
-//   if (response == 200) {
-//     String? refresh = await storage.read(key: 'refresh');
-//     String? access = await storage.read(key: 'access');
-//     print(refresh);
-//     print(access);
-//   }
-// }
 
 void printHttpContentInfo(var httpResponse, var httpResponseContent) {
   print("|<- status-code    : ${httpResponse.statusCode}");
