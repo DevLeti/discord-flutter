@@ -35,17 +35,10 @@ Future<int> login(var username, var password) async {
   print(httpResponse.statusCode);
   if (httpResponse.statusCode == 200) {
     var data = jsonDecode(httpResponseContent);
-    // print("data runtime type: ${data.runtimeType}");
-    // print("refresh: ${data['refresh']}\naccess: ${data['access']}");
-    // Obtain shared preferences.
     await storage.write(key: 'refresh', value: data['refresh']);
     await storage.write(key: 'token', value: data['access']);
   }
   return httpResponse.statusCode;
-  // } catch (e) {
-  //   rethrow;
-  // }
-  // printHttpContentInfo(httpResponse, httpResponseContent);
 }
 
 Future<int> register(var username, var password, var password2) async {
@@ -68,12 +61,7 @@ Future<int> register(var username, var password, var password2) async {
   httpResponse = await httpRequest.close();
   httpResponseContent = await utf8.decoder.bind(httpResponse).join();
 
-  // var data = jsonDecode(httpResponseContent);
-  // print("data runtime type: ${data.runtimeType}");
-  // print("refresh: ${data['refresh']}\naccess: ${data['access']}");
-
   return httpResponse.statusCode;
-  // printHttpContentInfo(httpResponse, httpResponseContent);
 }
 // End of JWT API
 
@@ -83,11 +71,8 @@ Future<List> getUserList() async {
   HttpClientResponse httpResponse;
 
   print("|-> Try to get User list");
-  // Map jsonContent = {
-  // };
-  // var content = jsonEncode(jsonContent);
   serverPath = "/api/user/";
-  // httpRequest = await httpClient.get(serverIp, serverPort, serverPath);
+
   String? token = await storage.read(key: 'token');
   httpRequest = await httpClient.get(serverIp, serverPort, serverPath)
     ..headers.add('Authorization', 'Bearer $token');
@@ -96,10 +81,8 @@ Future<List> getUserList() async {
 
   var data = jsonDecode(httpResponseContent);
   print("data runtime type: ${data.runtimeType}");
-  // print("refresh: ${data['refresh']}\naccess: ${data['access']}");
 
   return data;
-  // printHttpContentInfo(httpResponse, httpResponseContent);
 }
 // End of User API
 
@@ -412,9 +395,9 @@ Future<int> createLike(int serverId) async {
 
 // End of Like API
 
-void printHttpContentInfo(var httpResponse, var httpResponseContent) {
-  print("|<- status-code    : ${httpResponse.statusCode}");
-  print("|<- content-type   : ${httpResponse.headers.contentType}");
-  print("|<- content-length : ${httpResponse.headers.contentLength}");
-  print("|<- content        : $httpResponseContent");
-}
+// void printHttpContentInfo(var httpResponse, var httpResponseContent) {
+//   print("|<- status-code    : ${httpResponse.statusCode}");
+//   print("|<- content-type   : ${httpResponse.headers.contentType}");
+//   print("|<- content-length : ${httpResponse.headers.contentLength}");
+//   print("|<- content        : $httpResponseContent");
+// }
