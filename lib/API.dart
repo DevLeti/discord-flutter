@@ -79,10 +79,13 @@ Future<List> getUserList() async {
   httpResponse = await httpRequest.close();
   httpResponseContent = await utf8.decoder.bind(httpResponse).join();
 
-  var data = jsonDecode(httpResponseContent);
-  print("data runtime type: ${data.runtimeType}");
-
-  return data;
+  if (httpResponse.statusCode == 200) {
+    var data = jsonDecode(httpResponseContent);
+    print("data runtime type: ${data.runtimeType}");
+    return data;
+  } else {
+    return [];
+  }
 }
 // End of User API
 
@@ -142,13 +145,16 @@ Future<Map> editServerDetail(int serverId, String serverName, String serverUrl,
     'server_description': serverDescription
   };
   var content = jsonEncode(jsonContent);
+  // Bytes와 contentlength 불일치 해결
+  var contentLength = utf8.encode(json.encode(jsonContent)).length;
+  print('content: $content\ncontent-length: ${content.length}');
   serverPath = "/api/server/$serverId/";
 
   String? token = await storage.read(key: 'token');
   httpRequest = await httpClient.put(serverIp, serverPort, serverPath)
     ..headers.add('Authorization', 'Bearer $token')
     ..headers.contentType = ContentType.json
-    ..headers.contentLength = content.length
+    ..headers.contentLength = contentLength
     ..write(content);
   httpResponse = await httpRequest.close();
   httpResponseContent = await utf8.decoder.bind(httpResponse).join();
@@ -216,10 +222,10 @@ Future<Map> createServer(String serverName, String serverUrl,
     "server_description": serverDescription
   });
   print('Response status: ${response.statusCode}');
-  print('Response body: ${response.body}');
+  // print('Response body: ${response.body}');
 
   if (response.statusCode == 201) {
-    var serverInfo = jsonDecode(response.body);
+    var serverInfo = jsonDecode(utf8.decode(response.bodyBytes));
     // Server successfully created. Add tags.
     tags.forEach((tag) => createTag(serverInfo['server_id'], tag));
     return serverInfo;
@@ -316,7 +322,8 @@ Future<int> createTag(int serverId, String tagName) async {
       headers: {"Authorization": 'Bearer $token'},
       body: {"server_id": serverId.toString(), "tag_name": tagName});
   print('Response status: ${response.statusCode}');
-  print('Response body: ${response.body}');
+  var responseBody = jsonDecode(utf8.decode(response.bodyBytes));
+  print('Response body: ${responseBody}');
 
   return response.statusCode;
 }
