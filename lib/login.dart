@@ -1,10 +1,6 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:discord_flutter/API.dart';
 import 'package:discord_flutter/fyd_main.dart';
-
-// import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class LogIn extends StatefulWidget {
   @override
@@ -158,7 +154,7 @@ class _LogInState extends State<LogIn> {
                                   );
                                 } else {
                                   // TODO: Pop-up Alert로 교체
-                                  print('Login Failed.');
+                                  _showLoginFailAlert();
                                 }
                                 // String? token = await storage.read(key: 'token');
                                 // print(token);
@@ -228,7 +224,7 @@ class _LogInState extends State<LogIn> {
       context: context,
       builder: (BuildContext ctx) {
         return AlertDialog(
-          content: Text("회원가입에 성공하였습니다."),
+          content: const Text("회원가입에 성공하였습니다."),
           actions: [
             TextButton(
               child: const Text('확인'),
@@ -248,6 +244,25 @@ class _LogInState extends State<LogIn> {
       builder: (BuildContext ctx) {
         return AlertDialog(
           content: Text("회원가입에 실패하였습니다.$reason"),
+          actions: [
+            TextButton(
+              child: const Text('확인'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _showLoginFailAlert() {
+    showDialog(
+      context: context,
+      builder: (BuildContext ctx) {
+        return AlertDialog(
+          content: const Text("로그인에 실패했습니다.\nID 또는 PW를 확인해주세요."),
           actions: [
             TextButton(
               child: const Text('확인'),
