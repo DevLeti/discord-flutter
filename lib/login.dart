@@ -15,6 +15,11 @@ class _LogInState extends State<LogIn> {
   final idInput = TextEditingController();
   final pwInput = TextEditingController();
   final pw2Input = TextEditingController();
+
+  bool isPasswordSame = false;
+  bool isPwInputSizeLongEnough = false;
+  bool isPw2InputSizeLongEnough = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -171,23 +176,28 @@ class _LogInState extends State<LogIn> {
   }
 
   bool formValidation() {
-    bool validation = true;
+    isPasswordSame = true;
+    isPwInputSizeLongEnough = true;
+    isPw2InputSizeLongEnough = true;
 
     if (pwInput.text != pw2Input.text) {
       //TODO: pop-up
       print('password inputs are not same.');
-      validation = false;
+      isPasswordSame = false;
     }
     if (pwInput.text.length < 8) {
       //TODO: pop-up
       print('pwInput length is less than 8.');
-      validation = false;
+      isPwInputSizeLongEnough = false;
     }
     if (pw2Input.text.length < 8) {
       //TODO: pop-up
       print('pw2Input length is less than 8.');
-      validation = false;
+      isPw2InputSizeLongEnough = false;
     }
-    return validation;
+
+    bool totalValidation =
+        isPasswordSame && isPwInputSizeLongEnough && isPw2InputSizeLongEnough;
+    return totalValidation;
   }
 }
