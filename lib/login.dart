@@ -16,6 +16,7 @@ class _LogInState extends State<LogIn> {
   final pwInput = TextEditingController();
   final pw2Input = TextEditingController();
 
+  bool isIdFilled = false;
   bool isPasswordSame = false;
   bool isPwInputSizeLongEnough = false;
   bool isPw2InputSizeLongEnough = false;
@@ -23,26 +24,26 @@ class _LogInState extends State<LogIn> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(' '),
-        elevation: 0.0,
-        backgroundColor: Color(0xff5865f2),
-        centerTitle: true,
-        // leading: IconButton(icon: Icon(Icons.menu), onPressed: () {}),
-        // actions: <Widget>[
-        //   IconButton(icon: Icon(Icons.search), onPressed: () {})
-        // ],
-      ),
+      // appBar: AppBar(
+      //   title: Text(' '),
+      //   elevation: 0.0,
+      //   backgroundColor: Color(0xff5865f2),
+      //   centerTitle: true,
+      //   // leading: IconButton(icon: Icon(Icons.menu), onPressed: () {}),
+      //   // actions: <Widget>[
+      //   //   IconButton(icon: Icon(Icons.search), onPressed: () {})
+      //   // ],
+      // ),
       body: Column(
         children: [
-          const Padding(padding: EdgeInsets.only(top: 50)),
+          const Padding(padding: EdgeInsets.only(top: 130)),
           const Center(
             child: Text(
               'Fit\nYour\nDiscord',
               style: TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.w800,
-                fontSize: 40,
+                fontSize: 45,
               ),
               textAlign: TextAlign.center,
             ),
@@ -81,7 +82,7 @@ class _LogInState extends State<LogIn> {
                       ),
                       TextField(
                         decoration:
-                            const InputDecoration(labelText: 'PW(If Register)'),
+                            const InputDecoration(labelText: 'PW2 (회원가입시 입력)'),
                         keyboardType: TextInputType.text,
                         obscureText: true, // 비밀번호 안보이도록 하는 것
                         controller: pw2Input,
@@ -96,20 +97,34 @@ class _LogInState extends State<LogIn> {
                           children: [
                             ElevatedButton(
                               onPressed: () async {
-                                if (formValidation()) {
+                                if (_formValidation()) {
                                   int? result = await register(idInput.text,
                                       pwInput.text, pw2Input.text);
                                   print(result);
                                   if (result == 201) {
-                                    //TODO: pop-up Alert
-                                    print('Register Success.');
+                                    _showRegisterSuccessAlert();
                                   } else {
-                                    // TODO: Pop-up Alert로 교체
-                                    print('Register Failed.');
+                                    String reason = '';
+                                    reason += '\n- 이미 있는 Username일 수 있습니다.';
+                                    reason +=
+                                        '\n- Username을 수정해도 반복된다면 잠시 후 다시 시도해주세요.';
+                                    _showRegisterFailAlert(reason);
                                   }
                                 } else {
-                                  //TODO: pop-up Alert
-                                  print('Form Validation Failed.');
+                                  String reason = '';
+                                  if (!isIdFilled) {
+                                    reason += '\n- ID 입력 안됨';
+                                  }
+                                  if (!isPasswordSame) {
+                                    reason += '\n- 비밀번호 입력 불일치';
+                                  }
+                                  if (!isPwInputSizeLongEnough) {
+                                    reason += '\n- 비밀번호 길이 부족(8자 이상)';
+                                  }
+                                  if (!isPw2InputSizeLongEnough) {
+                                    reason += '\n- 확인 비밀번호 길이 부족(8자 이상)';
+                                  }
+                                  _showRegisterFailAlert(reason);
                                 }
                               },
                               style: ElevatedButton.styleFrom(
@@ -175,11 +190,16 @@ class _LogInState extends State<LogIn> {
     );
   }
 
-  bool formValidation() {
+  bool _formValidation() {
+    isIdFilled = true;
     isPasswordSame = true;
     isPwInputSizeLongEnough = true;
     isPw2InputSizeLongEnough = true;
 
+    if (idInput.text == '') {
+      print('id input is not filled.');
+      isIdFilled = false;
+    }
     if (pwInput.text != pw2Input.text) {
       //TODO: pop-up
       print('password inputs are not same.');
@@ -196,8 +216,48 @@ class _LogInState extends State<LogIn> {
       isPw2InputSizeLongEnough = false;
     }
 
-    bool totalValidation =
-        isPasswordSame && isPwInputSizeLongEnough && isPw2InputSizeLongEnough;
+    bool totalValidation = isIdFilled &&
+        isPasswordSame &&
+        isPwInputSizeLongEnough &&
+        isPw2InputSizeLongEnough;
     return totalValidation;
+  }
+
+  void _showRegisterSuccessAlert() {
+    showDialog(
+      context: context,
+      builder: (BuildContext ctx) {
+        return AlertDialog(
+          content: Text("회원가입에 성공하였습니다."),
+          actions: [
+            TextButton(
+              child: const Text('확인'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _showRegisterFailAlert(String reason) {
+    showDialog(
+      context: context,
+      builder: (BuildContext ctx) {
+        return AlertDialog(
+          content: Text("회원가입에 실패하였습니다.$reason"),
+          actions: [
+            TextButton(
+              child: const Text('확인'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 }
