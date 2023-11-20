@@ -76,88 +76,84 @@ class _LogInState extends State<LogIn> {
                       ),
                       TextField(
                         decoration:
-                            InputDecoration(labelText: 'PW(If Register)'),
+                            const InputDecoration(labelText: 'PW(If Register)'),
                         keyboardType: TextInputType.text,
                         obscureText: true, // 비밀번호 안보이도록 하는 것
                         controller: pw2Input,
-                        style: TextStyle(color: Colors.white),
+                        style: const TextStyle(color: Colors.white),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 30.0,
                       ),
                       SizedBox(
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
-                            ButtonTheme(
-                              minWidth: 200.0,
-                              height: 50.0,
-                              child: ElevatedButton(
-                                onPressed: () async {
-                                  if (formValidation()) {
-                                    int? result = await register(idInput.text,
-                                        pwInput.text, pw2Input.text);
-                                    print(result);
-                                    if (result == 201) {
-                                      //TODO: pop-up Alert
-                                      print('Register Success.');
-                                    } else {
-                                      // TODO: Pop-up Alert로 교체
-                                      print('Register Failed.');
-                                    }
-                                  } else {
+                            ElevatedButton(
+                              onPressed: () async {
+                                if (formValidation()) {
+                                  int? result = await register(idInput.text,
+                                      pwInput.text, pw2Input.text);
+                                  print(result);
+                                  if (result == 201) {
                                     //TODO: pop-up Alert
-                                    print('Form Validation Failed.');
-                                  }
-                                },
-                                child: Text(
-                                  'Register',
-                                  style: TextStyle(
-                                    fontSize: 30,
-                                    fontWeight: FontWeight.bold,
-                                    color: Color(0xff5865f2),
-                                  ),
-                                ),
-                                style: ElevatedButton.styleFrom(
-                                    backgroundColor: Colors.white),
-                              ),
-                            ),
-                            ButtonTheme(
-                              minWidth: 200.0,
-                              height: 50.0,
-                              child: ElevatedButton(
-                                onPressed: () async {
-                                  String? token =
-                                      await storage.read(key: 'token');
-                                  print("before: $token");
-                                  int? result =
-                                      await login(idInput.text, pwInput.text);
-                                  if (result == 200) {
-                                    token = await storage.read(key: 'token');
-                                    print('after: $token');
-                                    Navigator.of(context).push(
-                                      MaterialPageRoute(
-                                        builder: (BuildContext context) =>
-                                            FYDMain(),
-                                      ),
-                                    );
+                                    print('Register Success.');
                                   } else {
                                     // TODO: Pop-up Alert로 교체
-                                    print('Login Failed.');
+                                    print('Register Failed.');
                                   }
-                                  // String? token = await storage.read(key: 'token');
-                                  // print(token);
-                                },
-                                child: Text(
-                                  'Login',
-                                  style: TextStyle(
-                                    fontSize: 30,
-                                    fontWeight: FontWeight.bold,
-                                    color: Color(0xff5865f2),
-                                  ),
+                                } else {
+                                  //TODO: pop-up Alert
+                                  print('Form Validation Failed.');
+                                }
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.white,
+                                minimumSize: Size(120, 50),
+                              ),
+                              child: const Text(
+                                'Register',
+                                style: TextStyle(
+                                  fontSize: 28,
+                                  fontWeight: FontWeight.bold,
+                                  color: Color(0xff5865f2),
                                 ),
-                                style: ElevatedButton.styleFrom(
-                                    backgroundColor: Colors.white),
+                              ),
+                            ),
+                            ElevatedButton(
+                              onPressed: () async {
+                                String? token =
+                                    await storage.read(key: 'token');
+                                print("before: $token");
+                                int? result =
+                                    await login(idInput.text, pwInput.text);
+                                if (result == 200) {
+                                  token = await storage.read(key: 'token');
+                                  print('after: $token');
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (BuildContext context) =>
+                                          FYDMain(),
+                                    ),
+                                  );
+                                } else {
+                                  // TODO: Pop-up Alert로 교체
+                                  print('Login Failed.');
+                                }
+                                // String? token = await storage.read(key: 'token');
+                                // print(token);
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.white,
+                                minimumSize: Size(120, 50),
+                              ),
+                              child: const Text(
+                                'Login',
+                                style: TextStyle(
+                                  fontSize: 28,
+                                  fontWeight: FontWeight.bold,
+                                  color: Color(0xff5865f2),
+                                ),
                               ),
                             ),
                           ],
