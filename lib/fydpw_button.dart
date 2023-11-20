@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class FYDPWButton extends StatelessWidget {
-  FYDPWButton({
+class FYDRegisterButton extends StatelessWidget {
+  FYDRegisterButton({
     Key? key,
   }) : super(key: key);
   @override

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'fyd_login.dart';
+import 'login.dart';
 import 'API.dart';
 
-Future<void> main() async {
+void main() {
   final initialize = WidgetsFlutterBinding.ensureInitialized();
-  var response = await login('admin', 'admin');
-  if (response == 200) {
-    print(await deleteServer(26));
-  }
+  // var response = await login('admin', 'admin');
+  // if (response == 200) {
+  //   print(await deleteServer(26));
+  // }
   runApp(const MyApp());
 }
 
@@ -21,7 +21,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: FYDLogin(),
+      home: LogIn(),
+      theme: ThemeData(
+        scaffoldBackgroundColor: Color(0xff5865f2),
+      ),
     );
   }
 }

@@ -7,7 +7,7 @@ class FYDIDForm extends StatelessWidget {
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return Stack(
+    return ListView(
       children: <Widget>[
         // Adobe XD layer: 'ID' (text)
         // SizedBox(
