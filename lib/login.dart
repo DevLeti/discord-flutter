@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:discord_flutter/API.dart';
+import 'package:discord_flutter/fyd_main.dart';
 
 // import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
@@ -42,18 +43,18 @@ class _LogInState extends State<LogIn> {
             ),
           ),
           Form(
-              child: Theme(
-            data: ThemeData(
-              primaryColor: Colors.grey,
-              inputDecorationTheme: InputDecorationTheme(
-                labelStyle: TextStyle(
-                  color: Colors.white,
-                  fontSize: 20.0,
-                  fontWeight: FontWeight.bold,
+            child: Theme(
+              data: ThemeData(
+                primaryColor: Colors.grey,
+                inputDecorationTheme: InputDecorationTheme(
+                  labelStyle: TextStyle(
+                    color: Colors.white,
+                    fontSize: 20.0,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
-            ),
-            child: Container(
+              child: Container(
                 padding: EdgeInsets.all(40.0),
                 // 키보드가 올라와서 만약 스크린 영역을 차지하는 경우 스크롤이 되도록
                 // SingleChildScrollView으로 감싸 줌
@@ -82,31 +83,115 @@ class _LogInState extends State<LogIn> {
                         style: TextStyle(color: Colors.white),
                       ),
                       SizedBox(
-                        height: 40.0,
+                        height: 30.0,
                       ),
-                      ButtonTheme(
-                          minWidth: 100.0,
-                          height: 50.0,
-                          child: ElevatedButton(
-                            onPressed: () async {
-                              await login(idInput.text, pwInput.text);
-                              // String? token = await storage.read(key: 'token');
-                              // print(token);
-                            },
-                            child: Icon(
-                              Icons.arrow_forward,
-                              color: Colors.white,
-                              size: 35.0,
+                      SizedBox(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            ButtonTheme(
+                              minWidth: 200.0,
+                              height: 50.0,
+                              child: ElevatedButton(
+                                onPressed: () async {
+                                  if (formValidation()) {
+                                    int? result = await register(idInput.text,
+                                        pwInput.text, pw2Input.text);
+                                    print(result);
+                                    if (result == 201) {
+                                      //TODO: pop-up Alert
+                                      print('Register Success.');
+                                    } else {
+                                      // TODO: Pop-up Alert로 교체
+                                      print('Register Failed.');
+                                    }
+                                  } else {
+                                    //TODO: pop-up Alert
+                                    print('Form Validation Failed.');
+                                  }
+                                },
+                                child: Text(
+                                  'Register',
+                                  style: TextStyle(
+                                    fontSize: 30,
+                                    fontWeight: FontWeight.bold,
+                                    color: Color(0xff5865f2),
+                                  ),
+                                ),
+                                style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.white),
+                              ),
                             ),
-                            style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.orangeAccent),
-                          ))
+                            ButtonTheme(
+                              minWidth: 200.0,
+                              height: 50.0,
+                              child: ElevatedButton(
+                                onPressed: () async {
+                                  String? token =
+                                      await storage.read(key: 'token');
+                                  print("before: $token");
+                                  int? result =
+                                      await login(idInput.text, pwInput.text);
+                                  if (result == 200) {
+                                    token = await storage.read(key: 'token');
+                                    print('after: $token');
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (BuildContext context) =>
+                                            FYDMain(),
+                                      ),
+                                    );
+                                  } else {
+                                    // TODO: Pop-up Alert로 교체
+                                    print('Login Failed.');
+                                  }
+                                  // String? token = await storage.read(key: 'token');
+                                  // print(token);
+                                },
+                                child: Text(
+                                  'Login',
+                                  style: TextStyle(
+                                    fontSize: 30,
+                                    fontWeight: FontWeight.bold,
+                                    color: Color(0xff5865f2),
+                                  ),
+                                ),
+                                style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.white),
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
                     ],
                   ),
-                )),
-          ))
+                ),
+              ),
+            ),
+          ),
         ],
       ),
     );
+  }
+
+  bool formValidation() {
+    bool validation = true;
+
+    if (pwInput.text != pw2Input.text) {
+      //TODO: pop-up
+      print('password inputs are not same.');
+      validation = false;
+    }
+    if (pwInput.text.length < 8) {
+      //TODO: pop-up
+      print('pwInput length is less than 8.');
+      validation = false;
+    }
+    if (pw2Input.text.length < 8) {
+      //TODO: pop-up
+      print('pw2Input length is less than 8.');
+      validation = false;
+    }
+    return validation;
   }
 }
