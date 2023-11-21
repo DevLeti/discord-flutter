@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:discord_flutter/API.dart';
-import 'package:discord_flutter/fyd_main.dart';
+import 'package:discord_flutter/serverList.dart';
 
 class LogIn extends StatefulWidget {
   @override
@@ -20,6 +20,7 @@ class _LogInState extends State<LogIn> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xff5865f2),
       // appBar: AppBar(
       //   title: Text(' '),
       //   elevation: 0.0,
@@ -149,7 +150,7 @@ class _LogInState extends State<LogIn> {
                                   Navigator.of(context).push(
                                     MaterialPageRoute(
                                       builder: (BuildContext context) =>
-                                          FYDMain(),
+                                          ServerList(),
                                     ),
                                   );
                                 } else {
