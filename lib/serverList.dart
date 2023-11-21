@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:discord_flutter/API.dart';
-import 'package:discord_flutter/fyd_main.dart';
 
 class ServerList extends StatefulWidget {
   @override
@@ -29,17 +28,78 @@ class _ServerListState extends State<ServerList> {
           IconButton(icon: Icon(Icons.search), onPressed: () {})
         ],
       ),
-      body: Column(
+      body: ListView(
         children: [
-          const Center(
-            child: Text(
-              'Fit\nYour\nDiscord',
-              style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.w800,
-                fontSize: 45,
-              ),
-              textAlign: TextAlign.center,
+          Container(
+            margin: EdgeInsets.all(10),
+            width: 365.0,
+            height: 95.0,
+            decoration: BoxDecoration(
+              color: const Color(0xffffffff),
+              borderRadius: BorderRadius.circular(29.0),
+              boxShadow: [
+                BoxShadow(
+                  color: const Color(0x29000000),
+                  offset: Offset(0, 3),
+                  blurRadius: 6,
+                ),
+              ],
+            ),
+            child: Row(
+              children: [
+                Flexible(
+                  flex: 9,
+                  child: Container(
+                    padding: EdgeInsets.all(20),
+                    // color: Colors.deepPurple,
+                    // padding: ,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Text(
+                          '서버 타이틀',
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Text(
+                          '#잡담, #게임, #스터디',
+                          style: TextStyle(
+                            fontSize: 12,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Flexible(
+                  flex: 2,
+                  child: Container(
+                    // color: Colors.amber,
+                    alignment: Alignment.centerRight,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Icons.favorite_border, size: 16),
+                        Text(
+                          '127',
+                          style: TextStyle(fontSize: 14),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Flexible(
+                  flex: 2,
+                  child: Container(
+                    // color: Colors.blueAccent,
+                    alignment: Alignment.center,
+                    child: Icon(Icons.keyboard_arrow_right, size: 30),
+                  ),
+                ),
+              ],
             ),
           ),
         ],
