@@ -139,14 +139,9 @@ class _LogInState extends State<LogIn> {
                             ),
                             ElevatedButton(
                               onPressed: () async {
-                                String? token =
-                                    await storage.read(key: 'token');
-                                print("before: $token");
                                 int? result =
                                     await login(idInput.text, pwInput.text);
                                 if (result == 200) {
-                                  token = await storage.read(key: 'token');
-                                  print('after: $token');
                                   Navigator.of(context).push(
                                     MaterialPageRoute(
                                       builder: (BuildContext context) =>
