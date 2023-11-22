@@ -56,7 +56,6 @@ class _ServerListState extends State<ServerList> {
     );
   }
 
-  // TODO: 구현
   Future<List<Widget>> _displayServerList() async {
     List<Widget> serverElements = [];
     List serverList = await getServerList();
@@ -121,10 +120,9 @@ class _ServerListState extends State<ServerList> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Text(
-                    // TODO: serverName Overflow 처리
                     serverName.toString(),
                     style: TextStyle(
-                      fontSize: 20,
+                      fontSize: 18,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -132,7 +130,7 @@ class _ServerListState extends State<ServerList> {
                     serverTagNames.toString(),
                     style: TextStyle(
                       fontSize: 12,
-                      // TODO: grey color
+                      color: Colors.black54,
                     ),
                   ),
                 ],
@@ -147,13 +145,12 @@ class _ServerListState extends State<ServerList> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(Icons.favorite_border, size: 16),
+                  Icon(Icons.favorite_border, size: 15),
                   Text(
-                    // TODO: 효율적으로 대괄호를 없애서 표현
                     serverLike.length.toString(),
                     style: TextStyle(
-                      fontSize: 14,
-                      // TODO: grey color
+                      fontSize: 15,
+                      color: Colors.black54,
                     ),
                   ),
                 ],
