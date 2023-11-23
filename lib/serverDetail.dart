@@ -91,9 +91,6 @@ class _ServerDetailState extends State<ServerDetail> {
       },
     );
 
-    print(
-        '$serverId $serverName $serverUrl $serverDescription $serverCreator $serverLike $serverTag');
-
     return Container(
       margin: EdgeInsets.all(16),
       // width: 365.0,
@@ -207,7 +204,6 @@ class _ServerDetailState extends State<ServerDetail> {
                           ),
                         ],
                       ),
-                      // TODO: ADD Server Button
                     ),
                   ),
                 ],
