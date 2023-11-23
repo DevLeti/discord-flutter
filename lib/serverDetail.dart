@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:discord_flutter/API.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ServerDetail extends StatefulWidget {
   // TODO: serverId 받아오는거 테스트
@@ -218,7 +219,11 @@ class _ServerDetailState extends State<ServerDetail> {
             child: Center(
               child: Container(
                 child: ElevatedButton(
-                  onPressed: () async {},
+                  onPressed: () {
+                    launchUrl(
+                      Uri.parse(serverUrl),
+                    );
+                  },
                   style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(
                       //모서리를 둥글게
