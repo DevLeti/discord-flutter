@@ -3,10 +3,10 @@ import 'login.dart';
 import 'API.dart';
 
 void main() {
-  final initialize = WidgetsFlutterBinding.ensureInitialized();
+  // final initialize = WidgetsFlutterBinding.ensureInitialized();
   // var response = await login('admin', 'admin');
   // if (response == 200) {
-  //   print(await deleteServer(26));
+  //   //   print(await deleteServer(26));
   // }
   runApp(const MyApp());
 }
@@ -23,8 +23,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       home: LogIn(),
       theme: ThemeData(
-        scaffoldBackgroundColor: Color(0xff5865f2),
-      ),
+          // scaffoldBackgroundColor: Color(0xff5865f2),
+          ),
     );
   }
 }
