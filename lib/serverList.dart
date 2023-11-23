@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:discord_flutter/API.dart';
+import 'package:discord_flutter/serverDetail.dart';
 
 class ServerList extends StatefulWidget {
   @override
@@ -65,7 +66,7 @@ class _ServerListState extends State<ServerList> {
     return serverElements;
   }
 
-  Container _convertToServerElement(Map server) {
+  GestureDetector _convertToServerElement(Map server) {
     print('server_id : ${server["server_id"]}');
     print('server_name : ${server["server_name"]}');
     print('server_url : ${server["server_url"]}');
@@ -92,80 +93,89 @@ class _ServerListState extends State<ServerList> {
     print(
         '$serverId $serverName $serverUrl $serverDescription $serverCreator $serverLike $serverTag');
 
-    return Container(
-      margin: EdgeInsets.all(10),
-      width: 365.0,
-      height: 95.0,
-      decoration: BoxDecoration(
-        color: const Color(0xffffffff),
-        borderRadius: BorderRadius.circular(29.0),
-        boxShadow: [
-          BoxShadow(
-            color: const Color(0x29000000),
-            offset: Offset(0, 3),
-            blurRadius: 6,
+    return GestureDetector(
+      onTap: () {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (BuildContext context) => ServerDetail(serverId: serverId),
           ),
-        ],
-      ),
-      child: Row(
-        children: [
-          Flexible(
-            flex: 9,
-            child: Container(
-              padding: EdgeInsets.all(20),
-              // color: Colors.deepPurple,
-              // padding: ,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Text(
-                    serverName.toString(),
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
+        );
+      },
+      child: Container(
+        margin: EdgeInsets.all(10),
+        width: 365.0,
+        height: 95.0,
+        decoration: BoxDecoration(
+          color: const Color(0xffffffff),
+          borderRadius: BorderRadius.circular(29.0),
+          boxShadow: [
+            BoxShadow(
+              color: const Color(0x29000000),
+              offset: Offset(0, 3),
+              blurRadius: 6,
+            ),
+          ],
+        ),
+        child: Row(
+          children: [
+            Flexible(
+              flex: 9,
+              child: Container(
+                padding: EdgeInsets.all(20),
+                // color: Colors.deepPurple,
+                // padding: ,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Text(
+                      serverName.toString(),
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  ),
-                  Text(
-                    serverTagNames.toString(),
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: Colors.black54,
+                    Text(
+                      serverTagNames.toString(),
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Colors.black54,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
-          ),
-          Flexible(
-            flex: 2,
-            child: Container(
-              // color: Colors.amber,
-              alignment: Alignment.centerRight,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(Icons.favorite_border, size: 15),
-                  Text(
-                    serverLike.length.toString(),
-                    style: TextStyle(
-                      fontSize: 15,
-                      color: Colors.black54,
+            Flexible(
+              flex: 2,
+              child: Container(
+                // color: Colors.amber,
+                alignment: Alignment.centerRight,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.favorite_border, size: 15),
+                    Text(
+                      serverLike.length.toString(),
+                      style: TextStyle(
+                        fontSize: 15,
+                        color: Colors.black54,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
-          ),
-          Flexible(
-            flex: 2,
-            child: Container(
-              // color: Colors.blueAccent,
-              alignment: Alignment.center,
-              child: Icon(Icons.keyboard_arrow_right, size: 30),
+            Flexible(
+              flex: 2,
+              child: Container(
+                // color: Colors.blueAccent,
+                alignment: Alignment.center,
+                child: Icon(Icons.keyboard_arrow_right, size: 30),
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
