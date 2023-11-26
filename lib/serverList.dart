@@ -29,30 +29,32 @@ class _ServerListState extends State<ServerList> {
           IconButton(icon: Icon(Icons.search), onPressed: () {})
         ],
       ),
-      body: FutureBuilder(
-        future: _displayServerList(),
-        builder: (context, snapshot) {
-          //해당 부분은 data를 아직 받아 오지 못했을 때 실행되는 부분
-          if (snapshot.hasData == false) {
-            return CircularProgressIndicator(); // CircularProgressIndicator : 로딩 에니메이션
-          }
+      body: RefreshIndicator(
+        child: FutureBuilder(
+          future: _displayServerList(),
+          builder: (context, snapshot) {
+            //해당 부분은 data를 아직 받아 오지 못했을 때 실행되는 부분
+            if (snapshot.hasData == false) {
+              return CircularProgressIndicator(); // CircularProgressIndicator : 로딩 에니메이션
+            }
 
-          //error가 발생하게 될 경우 반환하게 되는 부분
-          else if (snapshot.hasError) {
-            return Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                'Error: ${snapshot.error}', // 에러명을 텍스트에 뿌려줌
-                style: TextStyle(fontSize: 15),
-              ),
-            );
-          }
-
-          // 데이터를 정상적으로 받아오게 되면 다음 부분을 실행하게 되는 부분
-          else {
-            return ListView(children: snapshot.data!);
-          }
-        },
+            //error가 발생하게 될 경우 반환하게 되는 부분
+            else if (snapshot.hasError) {
+              return Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  'Error: ${snapshot.error}', // 에러명을 텍스트에 뿌려줌
+                  style: TextStyle(fontSize: 15),
+                ),
+              );
+            }
+            // 데이터를 정상적으로 받아오게 되면 다음 부분을 실행하게 되는 부분
+            else {
+              return ListView(children: snapshot.data!);
+            }
+          },
+        ),
+        onRefresh: () async {},
       ),
     );
   }
