@@ -75,6 +75,7 @@ class _ServerDetailState extends State<ServerDetail> {
     return serverDetail;
   }
 
+  // Server에 Like 추가/삭제 요청, like 버튼 setState by change liked variable
   void _changeLikeState() async {
     if (liked == true) {
       await deleteLike(widget.serverId);
@@ -217,7 +218,6 @@ class _ServerDetailState extends State<ServerDetail> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          // TODO: User에 따라 Like 유무 확인, 반응형 적용
                           Text(
                             '$likeCount',
                             style: TextStyle(
