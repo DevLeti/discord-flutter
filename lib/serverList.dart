@@ -82,14 +82,6 @@ class _ServerListState extends State<ServerList> {
   }
 
   GestureDetector _convertToServerElement(Map server) {
-    // print('server_id : ${server["server_id"]}');
-    // print('server_name : ${server["server_name"]}');
-    // print('server_url : ${server["server_url"]}');
-    // print('server_description : ${server["server_description"]}');
-    // print('user_id : ${server["user_id"]}');
-    // print('like : ${server["like"]}');
-    // print('tag : ${server["tag"]}');
-
     int serverId = server["server_id"];
     String serverName = server["server_name"];
     String serverUrl = server["server_url"];
@@ -104,9 +96,6 @@ class _ServerListState extends State<ServerList> {
         serverTagNames.add('#' + tag["tag_name"]);
       },
     );
-
-    // print(
-    // '$serverId $serverName $serverUrl $serverDescription $serverCreator $serverLike $serverTag');
 
     return GestureDetector(
       onTap: () {
