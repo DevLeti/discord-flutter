@@ -124,8 +124,6 @@ class _searchServerState extends State<searchServer> {
               flex: 9,
               child: Container(
                 padding: EdgeInsets.all(20),
-                // color: Colors.deepPurple,
-                // padding: ,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -151,7 +149,6 @@ class _searchServerState extends State<searchServer> {
             Flexible(
               flex: 2,
               child: Container(
-                // color: Colors.amber,
                 alignment: Alignment.centerRight,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -171,7 +168,6 @@ class _searchServerState extends State<searchServer> {
             Flexible(
               flex: 2,
               child: Container(
-                // color: Colors.blueAccent,
                 alignment: Alignment.center,
                 child: Icon(Icons.keyboard_arrow_right, size: 30),
               ),

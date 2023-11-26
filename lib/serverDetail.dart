@@ -3,7 +3,6 @@ import 'package:discord_flutter/API.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ServerDetail extends StatefulWidget {
-  // TODO: serverId 받아오는거 테스트
   final int serverId;
   const ServerDetail({required this.serverId, Key? key}) : super(key: key);
 
@@ -35,11 +34,6 @@ class _ServerDetailState extends State<ServerDetail> {
         ),
         elevation: 0.0,
         backgroundColor: Color(0xff5865f2),
-        // centerTitle: true,
-        // leading: IconButton(icon: Icon(Icons.menu), onPressed: () {}),
-        // actions: <Widget>[
-        //   IconButton(icon: Icon(Icons.search), onPressed: () {})
-        // ],
       ),
       body: FutureBuilder(
         future: _getServerDetail(widget.serverId),
@@ -93,14 +87,6 @@ class _ServerDetailState extends State<ServerDetail> {
   }
 
   Container _convertToServerElement(Map server) {
-    // print('server_id : ${server["server_id"]}');
-    // print('server_name : ${server["server_name"]}');
-    // print('server_url : ${server["server_url"]}');
-    // print('server_description : ${server["server_description"]}');
-    // print('user_id : ${server["user_id"]}');
-    // print('like : ${server["like"]}');
-    // print('tag : ${server["tag"]}');
-
     // int serverId = server["server_id"];
     serverName = server["server_name"];
     serverUrl = server["server_url"];
@@ -121,8 +107,6 @@ class _ServerDetailState extends State<ServerDetail> {
 
     return Container(
       margin: EdgeInsets.all(16),
-      // width: 365.0,
-      // height: 95.0,
       child: Column(
         children: [
           Flexible(
@@ -145,10 +129,7 @@ class _ServerDetailState extends State<ServerDetail> {
                   Flexible(
                     flex: 1,
                     child: Container(
-                      // color: Colors.blueAccent,
                       padding: EdgeInsets.all(20),
-                      // color: Colors.deepPurple,
-                      // padding: ,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -176,10 +157,8 @@ class _ServerDetailState extends State<ServerDetail> {
                   Flexible(
                     flex: 3,
                     child: Container(
-                      // color: Colors.amber,
                       alignment: Alignment.center,
                       child: Container(
-                        // mainAxisAlignment: MainAxisAlignment.end,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
@@ -201,7 +180,6 @@ class _ServerDetailState extends State<ServerDetail> {
                                 style: TextStyle(
                                   fontSize: 16,
                                   color: Colors.black,
-                                  // fontFamily: 'SF Pro',
                                 ),
                               ),
                             ),
@@ -213,7 +191,6 @@ class _ServerDetailState extends State<ServerDetail> {
                   Flexible(
                     flex: 1,
                     child: Container(
-                      // color: Colors.blueAccent,
                       alignment: Alignment.center,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.end,
