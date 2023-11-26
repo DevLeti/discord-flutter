@@ -8,6 +8,7 @@ class ServerList extends StatefulWidget {
 }
 
 class _ServerListState extends State<ServerList> {
+  List<Widget> _list = [];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,43 +30,74 @@ class _ServerListState extends State<ServerList> {
           IconButton(icon: Icon(Icons.search), onPressed: () {})
         ],
       ),
-      body: RefreshIndicator(
-        child: FutureBuilder(
-          future: _displayServerList(),
-          builder: (context, snapshot) {
-            //해당 부분은 data를 아직 받아 오지 못했을 때 실행되는 부분
-            if (snapshot.hasData == false) {
-              return CircularProgressIndicator(); // CircularProgressIndicator : 로딩 에니메이션
-            }
+      body: FutureBuilder(
+        future: _initServerList(),
+        builder: (context, snapshot) {
+          // //해당 부분은 data를 아직 받아 오지 못했을 때 실행되는 부분
+          // if (snapshot.hasData == false) {
+          //   return CircularProgressIndicator(); // CircularProgressIndicator : 로딩 에니메이션
+          // }
 
-            //error가 발생하게 될 경우 반환하게 되는 부분
-            else if (snapshot.hasError) {
-              return Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  'Error: ${snapshot.error}', // 에러명을 텍스트에 뿌려줌
-                  style: TextStyle(fontSize: 15),
-                ),
-              );
-            }
-            // 데이터를 정상적으로 받아오게 되면 다음 부분을 실행하게 되는 부분
-            else {
-              return ListView(children: snapshot.data!);
-            }
-          },
-        ),
-        onRefresh: () async {},
+          // //error가 발생하게 될 경우 반환하게 되는 부분
+          // else if (snapshot.hasError) {
+          //   return Padding(
+          //     padding: const EdgeInsets.all(8.0),
+          //     child: Text(
+          //       'Error: ${snapshot.error}', // 에러명을 텍스트에 뿌려줌
+          //       style: TextStyle(fontSize: 15),
+          //     ),
+          //   );
+          // }
+          // // 데이터를 정상적으로 받아오게 되면 다음 부분을 실행하게 되는 부분
+          // else {
+          //   return ListView(children: _list);
+          // }
+          switch (snapshot.connectionState) {
+            case ConnectionState.none:
+            case ConnectionState.waiting:
+            case ConnectionState.active:
+              {
+                return Center(
+                  child: Text('Loading...'),
+                );
+              }
+            case ConnectionState.done:
+              {
+                print('length of list : ${_list.length}');
+                return RefreshIndicator(
+                  // key: _refreshIndicatorKey,
+                  onRefresh: _refreshServerList,
+                  child: ListView.builder(
+                      itemCount: _list.length,
+                      itemBuilder: (BuildContext context, index) {
+                        return _list[index];
+                      }),
+                );
+              }
+          }
+        },
       ),
     );
   }
 
-  Future<List<Widget>> _displayServerList() async {
+  Future<void> _initServerList() async {
     List<Widget> serverElements = [];
     List serverList = await getServerList();
     serverList.forEach((server) {
       serverElements.add(_convertToServerElement(server));
     });
-    return serverElements;
+    _list = serverElements;
+  }
+
+  Future<void> _refreshServerList() async {
+    List<Widget> serverElements = [];
+    List serverList = await getServerList();
+    serverList.forEach((server) {
+      serverElements.add(_convertToServerElement(server));
+    });
+    setState(() {
+      _list = serverElements;
+    });
   }
 
   GestureDetector _convertToServerElement(Map server) {
