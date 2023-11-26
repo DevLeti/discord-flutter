@@ -12,6 +12,14 @@ class ServerDetail extends StatefulWidget {
 }
 
 class _ServerDetailState extends State<ServerDetail> {
+  String serverName = "";
+  String serverUrl = "";
+  String serverDescription = "";
+  int serverCreator = -1;
+  List serverLike = [];
+  int likeCount = -1;
+  bool liked = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -67,21 +75,40 @@ class _ServerDetailState extends State<ServerDetail> {
     return serverDetail;
   }
 
-  Container _convertToServerElement(Map server) {
-    print('server_id : ${server["server_id"]}');
-    print('server_name : ${server["server_name"]}');
-    print('server_url : ${server["server_url"]}');
-    print('server_description : ${server["server_description"]}');
-    print('user_id : ${server["user_id"]}');
-    print('like : ${server["like"]}');
-    print('tag : ${server["tag"]}');
+  void _changeLikeState() async {
+    if (liked == true) {
+      await deleteLike(widget.serverId);
+    } else {
+      await createLike(widget.serverId);
+    }
+    setState(() {
+      if (liked == true) {
+        liked = false;
+      } else {
+        liked = true;
+      }
+    });
+    print(liked);
+  }
 
-    int serverId = server["server_id"];
-    String serverName = server["server_name"];
-    String serverUrl = server["server_url"];
-    String serverDescription = server["server_description"];
-    int serverCreator = server["user_id"];
-    List serverLike = server["like"];
+  Container _convertToServerElement(Map server) {
+    // print('server_id : ${server["server_id"]}');
+    // print('server_name : ${server["server_name"]}');
+    // print('server_url : ${server["server_url"]}');
+    // print('server_description : ${server["server_description"]}');
+    // print('user_id : ${server["user_id"]}');
+    // print('like : ${server["like"]}');
+    // print('tag : ${server["tag"]}');
+
+    // int serverId = server["server_id"];
+    serverName = server["server_name"];
+    serverUrl = server["server_url"];
+    serverDescription = server["server_description"];
+    serverCreator = server["user_id"];
+
+    serverLike = server["like"];
+    likeCount = serverLike.length;
+    liked = (server["user_liked"] == "y") ? true : false;
 
     List serverTagNames = [];
     List serverTag = server["tag"];
@@ -192,16 +219,28 @@ class _ServerDetailState extends State<ServerDetail> {
                         children: [
                           // TODO: User에 따라 Like 유무 확인, 반응형 적용
                           Text(
-                            serverLike.length.toString(),
+                            '$likeCount',
                             style: TextStyle(
                               fontSize: 20,
                               color: Colors.black,
                             ),
                           ),
-                          Icon(
-                            Icons.favorite_border,
-                            size: 18,
-                          ),
+                          liked
+                              ? IconButton(
+                                  icon: const Icon(
+                                    Icons.favorite,
+                                    size: 18,
+                                  ),
+                                  color: Colors.red,
+                                  onPressed: _changeLikeState,
+                                )
+                              : IconButton(
+                                  icon: const Icon(
+                                    Icons.favorite_border,
+                                    size: 18,
+                                  ),
+                                  onPressed: _changeLikeState,
+                                ),
                         ],
                       ),
                     ),
