@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:discord_flutter/API.dart';
 import 'package:discord_flutter/serverDetail.dart';
+import 'package:discord_flutter/searchServerList.dart';
 
 class ServerList extends StatefulWidget {
   @override
@@ -27,7 +28,15 @@ class _ServerListState extends State<ServerList> {
         // centerTitle: true,
         leading: IconButton(icon: Icon(Icons.menu), onPressed: () {}),
         actions: <Widget>[
-          IconButton(icon: Icon(Icons.search), onPressed: () {})
+          IconButton(
+              icon: Icon(Icons.search),
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (BuildContext context) => searchServerList(),
+                  ),
+                );
+              })
         ],
       ),
       body: FutureBuilder(
