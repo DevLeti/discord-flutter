@@ -30,32 +30,68 @@ class _searchServerListState extends State<searchServerList> {
       // 1. Column으로 나눈 후 Flexible로 Search와 Result 배치
       // 1-1. Search는 Row로 - Textfield와 Search(icon) Button 배치
       // 1-2. Result는 FutureBuilder - Textfield의 값을 넣어서 Search API 호출 - 나온 결과를 뿌려주기 - 어떻게?
-      body: FutureBuilder(
-        future: _initServerList(),
-        builder: (context, snapshot) {
-          switch (snapshot.connectionState) {
-            case ConnectionState.none:
-            case ConnectionState.waiting:
-            case ConnectionState.active:
-              {
-                return Center(
-                  child: Text('Loading...'),
-                );
-              }
-            case ConnectionState.done:
-              {
-                return RefreshIndicator(
-                  onRefresh: _searchServerList,
-                  child: ListView.builder(
-                    itemCount: _serverList.length,
-                    itemBuilder: (BuildContext context, index) {
-                      return _serverList[index];
-                    },
+      body: Column(
+        children: [
+          Flexible(
+            flex: 1,
+            child: Container(
+              padding: EdgeInsets.all(10),
+              child: Row(
+                children: [
+                  Flexible(
+                    flex: 9,
+                    child: TextField(
+                      controller: _inputController,
+                      decoration: InputDecoration(
+                        labelText: '검색 키워드 입력',
+                        contentPadding: EdgeInsets.all(10),
+                      ),
+                    ),
                   ),
-                );
-              }
-          }
-        },
+                  Flexible(
+                    flex: 1,
+                    child: IconButton(
+                      icon: const Icon(Icons.search),
+                      onPressed: () {
+                        setState(() {});
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Flexible(
+            flex: 9,
+            child: FutureBuilder(
+              future: _searchServerList(),
+              builder: (context, snapshot) {
+                switch (snapshot.connectionState) {
+                  case ConnectionState.none:
+                  case ConnectionState.waiting:
+                  case ConnectionState.active:
+                    {
+                      return Center(
+                        child: Text('Loading...'),
+                      );
+                    }
+                  case ConnectionState.done:
+                    {
+                      return RefreshIndicator(
+                        onRefresh: _searchServerList,
+                        child: ListView.builder(
+                          itemCount: _serverList.length,
+                          itemBuilder: (BuildContext context, index) {
+                            return _serverList[index];
+                          },
+                        ),
+                      );
+                    }
+                }
+              },
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -69,16 +105,14 @@ class _searchServerListState extends State<searchServerList> {
     _serverList = serverElements;
   }
 
-  // TODO: Logic에 맞게 수정
   Future<void> _searchServerList() async {
     List<Widget> serverElements = [];
     List serverList = await searchServer(_inputController.text);
+    print(serverList);
     serverList.forEach((server) {
       serverElements.add(_convertToServerElement(server));
     });
-    setState(() {
-      _serverList = serverElements;
-    });
+    _serverList = serverElements;
   }
 
   GestureDetector _convertToServerElement(Map server) {
