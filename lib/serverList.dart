@@ -8,7 +8,7 @@ class ServerList extends StatefulWidget {
 }
 
 class _ServerListState extends State<ServerList> {
-  List<Widget> _list = [];
+  List<Widget> _serverList = [];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,10 +48,11 @@ class _ServerListState extends State<ServerList> {
                   // key: _refreshIndicatorKey,
                   onRefresh: _refreshServerList,
                   child: ListView.builder(
-                      itemCount: _list.length,
-                      itemBuilder: (BuildContext context, index) {
-                        return _list[index];
-                      }),
+                    itemCount: _serverList.length,
+                    itemBuilder: (BuildContext context, index) {
+                      return _serverList[index];
+                    },
+                  ),
                 );
               }
           }
@@ -66,7 +67,7 @@ class _ServerListState extends State<ServerList> {
     serverList.forEach((server) {
       serverElements.add(_convertToServerElement(server));
     });
-    _list = serverElements;
+    _serverList = serverElements;
   }
 
   Future<void> _refreshServerList() async {
@@ -76,18 +77,18 @@ class _ServerListState extends State<ServerList> {
       serverElements.add(_convertToServerElement(server));
     });
     setState(() {
-      _list = serverElements;
+      _serverList = serverElements;
     });
   }
 
   GestureDetector _convertToServerElement(Map server) {
-    print('server_id : ${server["server_id"]}');
-    print('server_name : ${server["server_name"]}');
-    print('server_url : ${server["server_url"]}');
-    print('server_description : ${server["server_description"]}');
-    print('user_id : ${server["user_id"]}');
-    print('like : ${server["like"]}');
-    print('tag : ${server["tag"]}');
+    // print('server_id : ${server["server_id"]}');
+    // print('server_name : ${server["server_name"]}');
+    // print('server_url : ${server["server_url"]}');
+    // print('server_description : ${server["server_description"]}');
+    // print('user_id : ${server["user_id"]}');
+    // print('like : ${server["like"]}');
+    // print('tag : ${server["tag"]}');
 
     int serverId = server["server_id"];
     String serverName = server["server_name"];
@@ -104,8 +105,8 @@ class _ServerListState extends State<ServerList> {
       },
     );
 
-    print(
-        '$serverId $serverName $serverUrl $serverDescription $serverCreator $serverLike $serverTag');
+    // print(
+    // '$serverId $serverName $serverUrl $serverDescription $serverCreator $serverLike $serverTag');
 
     return GestureDetector(
       onTap: () {
