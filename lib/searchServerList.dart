@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:discord_flutter/API.dart';
 import 'package:discord_flutter/serverDetail.dart';
 
-class searchServer extends StatefulWidget {
+class searchServerList extends StatefulWidget {
   @override
-  State<searchServer> createState() => _searchServerState();
+  State<searchServerList> createState() => _searchServerListState();
 }
 
-class _searchServerState extends State<searchServer> {
+class _searchServerListState extends State<searchServerList> {
+  final _inputController = TextEditingController();
   List<Widget> _serverList = [];
   @override
   Widget build(BuildContext context) {
@@ -15,7 +16,7 @@ class _searchServerState extends State<searchServer> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text(
-          'Server search',
+          'Server Search',
           style: TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,
@@ -44,7 +45,7 @@ class _searchServerState extends State<searchServer> {
             case ConnectionState.done:
               {
                 return RefreshIndicator(
-                  onRefresh: _refreshServerList,
+                  onRefresh: _searchServerList,
                   child: ListView.builder(
                     itemCount: _serverList.length,
                     itemBuilder: (BuildContext context, index) {
@@ -68,9 +69,10 @@ class _searchServerState extends State<searchServer> {
     _serverList = serverElements;
   }
 
-  Future<void> _refreshServerList() async {
+  // TODO: Logic에 맞게 수정
+  Future<void> _searchServerList() async {
     List<Widget> serverElements = [];
-    List serverList = await getServerList();
+    List serverList = await searchServer(_inputController.text);
     serverList.forEach((server) {
       serverElements.add(_convertToServerElement(server));
     });
