@@ -33,7 +33,7 @@ class _ServerListState extends State<ServerList> {
               onPressed: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (BuildContext context) => searchServerList(),
+                    builder: (BuildContext context) => SearchServerList(),
                   ),
                 );
               })

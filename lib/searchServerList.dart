@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:discord_flutter/API.dart';
 import 'package:discord_flutter/serverDetail.dart';
 
-class searchServerList extends StatefulWidget {
+class SearchServerList extends StatefulWidget {
   @override
-  State<searchServerList> createState() => _searchServerListState();
+  State<SearchServerList> createState() => _SearchServerListState();
 }
 
-class _searchServerListState extends State<searchServerList> {
+class _SearchServerListState extends State<SearchServerList> {
   final _inputController = TextEditingController();
   List<Widget> _serverList = [];
   @override
