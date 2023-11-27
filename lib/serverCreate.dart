@@ -1,23 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:discord_flutter/API.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class ServerCreate extends StatefulWidget {
-  final int serverId;
-  const ServerCreate({required this.serverId, Key? key}) : super(key: key);
-
   @override
   State<ServerCreate> createState() => _ServerCreateState();
 }
 
 class _ServerCreateState extends State<ServerCreate> {
-  String serverName = "";
-  String serverUrl = "";
-  String serverDescription = "";
-  int serverCreator = -1;
-  List serverLike = [];
-  int likeCount = -1;
-  bool liked = false;
+  TextEditingController serverName = TextEditingController();
+  TextEditingController serverUrl = TextEditingController();
+  TextEditingController serverDescription = TextEditingController();
+  TextEditingController serverTag = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +18,7 @@ class _ServerCreateState extends State<ServerCreate> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text(
-          'Server Information',
+          'Server Create',
           style: TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,
@@ -35,228 +28,131 @@ class _ServerCreateState extends State<ServerCreate> {
         elevation: 0.0,
         backgroundColor: Color(0xff5865f2),
       ),
-      body: FutureBuilder(
-        future: _getServerDetail(widget.serverId),
-        builder: (context, snapshot) {
-          //해당 부분은 data를 아직 받아 오지 못했을 때 실행되는 부분
-          if (snapshot.hasData == false) {
-            return CircularProgressIndicator(); // CircularProgressIndicator : 로딩 에니메이션
-          }
-
-          //error가 발생하게 될 경우 반환하게 되는 부분
-          else if (snapshot.hasError) {
-            return Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                'Error: ${snapshot.error}', // 에러명을 텍스트에 뿌려줌
-                style: TextStyle(fontSize: 15),
-              ),
-            );
-          }
-
-          // 데이터를 정상적으로 받아오게 되면 다음 부분을 실행하게 되는 부분
-          else {
-            return snapshot.data!;
-          }
-        },
-      ),
-    );
-  }
-
-  Future<Widget> _getServerDetail(int serverId) async {
-    Container serverDetail =
-        _convertToServerElement(await getServerDetail(serverId));
-    return serverDetail;
-  }
-
-  // Server에 Like 추가/삭제 요청, like 버튼 setState by change liked variable
-  void _changeLikeState() async {
-    if (liked == true) {
-      await deleteLike(widget.serverId);
-    } else {
-      await createLike(widget.serverId);
-    }
-    setState(() {
-      if (liked == true) {
-        liked = false;
-      } else {
-        liked = true;
-      }
-    });
-    print(liked);
-  }
-
-  Container _convertToServerElement(Map server) {
-    // int serverId = server["server_id"];
-    serverName = server["server_name"];
-    serverUrl = server["server_url"];
-    serverDescription = server["server_description"];
-    serverCreator = server["user_id"];
-
-    serverLike = server["like"];
-    likeCount = serverLike.length;
-    liked = (server["user_liked"] == "y") ? true : false;
-
-    List serverTagNames = [];
-    List serverTag = server["tag"];
-    serverTag.forEach(
-      (tag) {
-        serverTagNames.add('#' + tag["tag_name"]);
-      },
-    );
-
-    return Container(
-      margin: EdgeInsets.all(16),
-      child: Column(
-        children: [
-          Flexible(
-            flex: 8,
-            child: Container(
-              decoration: BoxDecoration(
-                color: const Color(0xffffffff),
-                borderRadius: BorderRadius.circular(29.0),
-                boxShadow: [
-                  BoxShadow(
-                    color: const Color(0x29000000),
-                    offset: Offset(0, 3),
-                    blurRadius: 6,
-                  ),
-                ],
-              ),
-              padding: EdgeInsets.all(10),
-              child: Column(
-                children: [
-                  Flexible(
-                    flex: 1,
-                    child: Container(
-                      padding: EdgeInsets.all(20),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          Text(
-                            serverName.toString(),
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 28,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Text(
-                            serverTagNames.toString(),
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 12,
-                              color: Colors.black54,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Flexible(
-                    flex: 3,
-                    child: Container(
-                      alignment: Alignment.center,
-                      child: Container(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            Flexible(
-                              flex: 1,
-                              child: Text(
-                                '서버 설명',
-                                textAlign: TextAlign.start,
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                            Flexible(
-                              flex: 9,
-                              child: Text(
-                                serverDescription,
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  color: Colors.black,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                  Flexible(
-                    flex: 1,
-                    child: Container(
-                      alignment: Alignment.center,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Text(
-                            '$likeCount',
-                            style: TextStyle(
-                              fontSize: 20,
-                              color: Colors.black,
-                            ),
-                          ),
-                          liked
-                              ? IconButton(
-                                  icon: const Icon(
-                                    Icons.favorite,
-                                    size: 18,
-                                  ),
-                                  color: Colors.red,
-                                  onPressed: _changeLikeState,
-                                )
-                              : IconButton(
-                                  icon: const Icon(
-                                    Icons.favorite_border,
-                                    size: 18,
-                                  ),
-                                  onPressed: _changeLikeState,
-                                ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Flexible(
-            flex: 2,
-            child: Center(
+      body: Container(
+        // TODO: Title TextField, Tag TextField, Description Textfield, URL TextField, Add Server Button
+        margin: EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Flexible(
+              flex: 8,
+              fit: FlexFit.tight,
               child: Container(
-                child: ElevatedButton(
-                  onPressed: () {
-                    launchUrl(
-                      Uri.parse(serverUrl),
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                      //모서리를 둥글게
-                      borderRadius: BorderRadius.circular(20),
+                decoration: BoxDecoration(
+                  color: const Color(0xffffffff),
+                  borderRadius: BorderRadius.circular(29.0),
+                  boxShadow: [
+                    BoxShadow(
+                      color: const Color(0x29000000),
+                      offset: Offset(0, 3),
+                      blurRadius: 6,
                     ),
-                    backgroundColor: Color(0xff5865f2),
-                    minimumSize: Size.fromHeight(50),
+                  ],
+                ),
+                child: Theme(
+                  data: ThemeData(
+                    primaryColor: Colors.grey,
+                    inputDecorationTheme: const InputDecorationTheme(
+                      labelStyle: TextStyle(
+                        color: Colors.black,
+                        fontSize: 15.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ),
-                  child: const Text(
-                    'Add Server',
-                    style: TextStyle(
-                      fontSize: 28,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
+                  child: Container(
+                    padding: const EdgeInsets.all(40.0),
+                    // 키보드가 올라와서 만약 스크린 영역을 차지하는 경우 스크롤이 되도록
+                    // SingleChildScrollView으로 감싸 줌
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          TextField(
+                            decoration:
+                                const InputDecoration(labelText: 'Server Name'),
+                            keyboardType: TextInputType.text,
+                            controller: serverName,
+                            style: const TextStyle(color: Colors.black),
+                          ),
+                          TextField(
+                            decoration: const InputDecoration(
+                                labelText: 'Server Tag(스페이스바로 구분)'),
+                            keyboardType: TextInputType.text,
+                            controller: serverTag,
+                            style: const TextStyle(color: Colors.black),
+                          ),
+                          TextField(
+                            decoration: const InputDecoration(
+                                labelText: 'Server Url(Discord)'),
+                            keyboardType: TextInputType.text,
+                            controller: serverUrl,
+                            style: const TextStyle(color: Colors.black),
+                          ),
+                          const SizedBox(
+                            height: 20.0,
+                          ),
+                          TextField(
+                            decoration: const InputDecoration(
+                              alignLabelWithHint: true,
+                              labelText: 'Server Description',
+                              border: OutlineInputBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(20)),
+                                borderSide: BorderSide(
+                                  color: Color(0xff5865f2),
+                                ),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(20)),
+                                borderSide: BorderSide(
+                                  color: Color(0xff5865f2),
+                                ),
+                              ),
+                            ),
+                            keyboardType: TextInputType.text,
+                            controller: serverDescription,
+                            maxLines: 10,
+                            style: const TextStyle(color: Colors.black),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
               ),
             ),
-          ),
-        ],
+            Flexible(
+              flex: 2,
+              child: Center(
+                child: Container(
+                  child: ElevatedButton(
+                    onPressed: () async {
+                      await createServer(serverName.text, serverUrl.text,
+                          serverDescription.text, serverTag.text.split(' '));
+                    },
+                    style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        //모서리를 둥글게
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      backgroundColor: Color(0xff5865f2),
+                      minimumSize: Size.fromHeight(50),
+                    ),
+                    child: const Text(
+                      'Add Server',
+                      style: TextStyle(
+                        fontSize: 28,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
