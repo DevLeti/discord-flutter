@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:discord_flutter/API.dart';
 import 'package:discord_flutter/serverDetail.dart';
 import 'package:discord_flutter/searchServerList.dart';
+import 'package:discord_flutter/serverCreate.dart';
 
 class ServerList extends StatefulWidget {
   @override
@@ -15,7 +16,7 @@ class _ServerListState extends State<ServerList> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           'Server List',
           style: TextStyle(
             color: Colors.white,
@@ -24,20 +25,31 @@ class _ServerListState extends State<ServerList> {
           ),
         ),
         elevation: 0.0,
-        backgroundColor: Color(0xff5865f2),
+        backgroundColor: const Color(0xff5865f2),
         // centerTitle: true,
-        leading: IconButton(icon: Icon(Icons.menu), onPressed: () {}),
+        leading: IconButton(icon: const Icon(Icons.menu), onPressed: () {}),
         actions: <Widget>[
           IconButton(
-              icon: Icon(Icons.search),
-              onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (BuildContext context) => SearchServerList(),
-                  ),
-                );
-              })
+            icon: const Icon(Icons.search),
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (BuildContext context) => SearchServerList(),
+                ),
+              );
+            },
+          ),
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (BuildContext context) => ServerCreate(),
+            ),
+          );
+        },
+        child: const Icon(Icons.add),
       ),
       body: FutureBuilder(
         future: _initServerList(),
