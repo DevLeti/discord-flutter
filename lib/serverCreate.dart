@@ -128,8 +128,18 @@ class _ServerCreateState extends State<ServerCreate> {
                 child: Container(
                   child: ElevatedButton(
                     onPressed: () async {
-                      await createServer(serverName.text, serverUrl.text,
-                          serverDescription.text, serverTag.text.split(' '));
+                      Map result = await createServer(
+                          serverName.text,
+                          serverUrl.text,
+                          serverDescription.text,
+                          serverTag.text.split(' '));
+                      Navigator.of(context).pop();
+                      // if (result.isNotEmpty) {
+                      //   _showSuccessAlert();
+                      //   Navigator.of(context).pop();
+                      // } else {
+                      //   _showFailAlert();
+                      // }
                     },
                     style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(
@@ -154,6 +164,44 @@ class _ServerCreateState extends State<ServerCreate> {
           ],
         ),
       ),
+    );
+  }
+
+  void _showSuccessAlert() {
+    showDialog(
+      context: context,
+      builder: (BuildContext ctx) {
+        return AlertDialog(
+          content: const Text("서버 생성에 성공하였습니다!"),
+          actions: [
+            TextButton(
+              child: const Text('확인'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _showFailAlert() {
+    showDialog(
+      context: context,
+      builder: (BuildContext ctx) {
+        return AlertDialog(
+          content: const Text("서버 생성에 실패하였습니다.\n다시 한번 시도해 주세요."),
+          actions: [
+            TextButton(
+              child: const Text('확인'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }
