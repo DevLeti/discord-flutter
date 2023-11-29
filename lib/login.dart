@@ -149,11 +149,8 @@ class _LogInState extends State<LogIn> {
                                     ),
                                   );
                                 } else {
-                                  // TODO: Pop-up Alert로 교체
                                   _showLoginFailAlert();
                                 }
-                                // String? token = await storage.read(key: 'token');
-                                // print(token);
                               },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.white,
