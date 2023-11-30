@@ -49,7 +49,11 @@ class _ServerListState extends State<ServerList> {
             ),
           );
         },
-        child: const Icon(Icons.add),
+        child: const Icon(
+          Icons.add,
+          size: 30,
+        ),
+        backgroundColor: Color(0xff5865f2),
       ),
       body: FutureBuilder(
         future: _initServerList(),
