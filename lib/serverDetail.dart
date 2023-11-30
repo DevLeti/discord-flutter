@@ -18,6 +18,7 @@ class _ServerDetailState extends State<ServerDetail> {
   List serverLike = [];
   int likeCount = -1;
   bool isLiked = false;
+  bool isOwner = false;
 
   @override
   Widget build(BuildContext context) {
@@ -96,6 +97,7 @@ class _ServerDetailState extends State<ServerDetail> {
     serverLike = server["like"];
     likeCount = serverLike.length;
     isLiked = (server["user_liked"] == "y") ? true : false;
+    isOwner = (server["is_owner"] == "y") ? true : false;
 
     List serverTagNames = [];
     List serverTag = server["tag"];
@@ -103,7 +105,7 @@ class _ServerDetailState extends State<ServerDetail> {
       (tag) {
         serverTagNames.add('#' + tag["tag_name"]);
       },
-    );
+    ); // 간접적으로 Edit 버튼 활성여부 결정
 
     return Container(
       margin: EdgeInsets.all(16),
