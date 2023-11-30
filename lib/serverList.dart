@@ -27,7 +27,17 @@ class _ServerListState extends State<ServerList> {
         elevation: 0.0,
         backgroundColor: const Color(0xff5865f2),
         // centerTitle: true,
-        leading: IconButton(icon: const Icon(Icons.menu), onPressed: () {}),
+        leading: Builder(
+          builder: (BuildContext context) {
+            return IconButton(
+              icon: const Icon(Icons.menu),
+              onPressed: () {
+                Scaffold.of(context).openDrawer();
+              },
+              tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
+            );
+          },
+        ),
         actions: <Widget>[
           IconButton(
             icon: const Icon(Icons.search),
@@ -41,6 +51,7 @@ class _ServerListState extends State<ServerList> {
           ),
         ],
       ),
+      drawer: _getDrawerWidget(),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.of(context).push(
@@ -205,6 +216,42 @@ class _ServerListState extends State<ServerList> {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _getDrawerWidget() {
+    return Drawer(
+      child: ListView(
+        padding: EdgeInsets.zero,
+        children: <Widget>[
+          const DrawerHeader(
+            decoration: BoxDecoration(
+              color: Color(0xff5865f2),
+            ),
+            child: Text(
+              'My Page',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 24,
+              ),
+            ),
+          ),
+          ListTile(
+            leading: const Icon(Icons.favorite),
+            title: const Text('Liked Server(s)'),
+            onTap: () {
+              setState(() {});
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.menu_book_rounded),
+            title: const Text('My Server(s)'),
+            onTap: () {
+              setState(() {});
+            },
+          ),
+        ],
       ),
     );
   }
