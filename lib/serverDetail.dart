@@ -125,13 +125,12 @@ class _ServerDetailState extends State<ServerDetail> {
                   ),
                 ],
               ),
-              padding: EdgeInsets.all(10),
+              padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
               child: Column(
                 children: [
                   Flexible(
                     flex: 1,
                     child: Container(
-                      padding: EdgeInsets.all(20),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.stretch,
