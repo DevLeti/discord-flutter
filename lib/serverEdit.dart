@@ -35,10 +35,10 @@ class _ServerEditState extends State<ServerEdit> {
           ),
         ),
         elevation: 0.0,
-        backgroundColor: Color(0xff5865f2),
+        backgroundColor: const Color(0xff5865f2),
       ),
       body: Container(
-        margin: EdgeInsets.all(16),
+        margin: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -49,9 +49,9 @@ class _ServerEditState extends State<ServerEdit> {
                 decoration: BoxDecoration(
                   color: const Color(0xffffffff),
                   borderRadius: BorderRadius.circular(29.0),
-                  boxShadow: [
+                  boxShadow: const [
                     BoxShadow(
-                      color: const Color(0x29000000),
+                      color: Color(0x29000000),
                       offset: Offset(0, 3),
                       blurRadius: 6,
                     ),
@@ -153,8 +153,8 @@ class _ServerEditState extends State<ServerEdit> {
                         //모서리를 둥글게
                         borderRadius: BorderRadius.circular(20),
                       ),
-                      backgroundColor: Color(0xff5865f2),
-                      minimumSize: Size.fromHeight(50),
+                      backgroundColor: const Color(0xff5865f2),
+                      minimumSize: const Size.fromHeight(50),
                     ),
                     child: const Text(
                       'Edit Server',

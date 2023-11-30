@@ -1,20 +1,12 @@
 import 'package:flutter/material.dart';
 import 'login.dart';
-import 'API.dart';
+// import 'API.dart';
 
 void main() {
   // final initialize = WidgetsFlutterBinding.ensureInitialized();
-  // var response = await login('admin', 'admin');
-  // if (response == 200) {
-  //   //   print(await deleteServer(26));
-  // }
   runApp(const MyApp());
 }
 
-// String? refresh = await storage.read(key: 'refresh');
-// String? token = await storage.read(key: 'token');
-// print(refresh);
-// print(token);
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
   // This widget is the root of your application.
@@ -22,9 +14,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: LogIn(),
-      theme: ThemeData(
-          // scaffoldBackgroundColor: Color(0xff5865f2),
-          ),
+      theme: ThemeData(),
     );
   }
 }

@@ -15,7 +15,7 @@ class _SearchServerListState extends State<SearchServerList> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           'Server Search',
           style: TextStyle(
             color: Colors.white,
@@ -24,25 +24,21 @@ class _SearchServerListState extends State<SearchServerList> {
           ),
         ),
         elevation: 0.0,
-        backgroundColor: Color(0xff5865f2),
+        backgroundColor: const Color(0xff5865f2),
       ),
-      // TODO: 구현
-      // 1. Column으로 나눈 후 Flexible로 Search와 Result 배치
-      // 1-1. Search는 Row로 - Textfield와 Search(icon) Button 배치
-      // 1-2. Result는 FutureBuilder - Textfield의 값을 넣어서 Search API 호출 - 나온 결과를 뿌려주기 - 어떻게?
       body: Column(
         children: [
           Flexible(
             flex: 1,
             child: Container(
-              padding: EdgeInsets.all(10),
+              padding: const EdgeInsets.all(10),
               child: Row(
                 children: [
                   Flexible(
                     flex: 9,
                     child: TextField(
                       controller: _inputController,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         labelText: '검색 키워드 입력',
                         contentPadding: EdgeInsets.all(10),
                       ),
@@ -71,7 +67,7 @@ class _SearchServerListState extends State<SearchServerList> {
                   case ConnectionState.waiting:
                   case ConnectionState.active:
                     {
-                      return Center(
+                      return const Center(
                         child: Text('Loading...'),
                       );
                     }
@@ -96,19 +92,9 @@ class _SearchServerListState extends State<SearchServerList> {
     );
   }
 
-  Future<void> _initServerList() async {
-    List<Widget> serverElements = [];
-    List serverList = await getServerList();
-    serverList.forEach((server) {
-      serverElements.add(_convertToServerElement(server));
-    });
-    _serverList = serverElements;
-  }
-
   Future<void> _searchServerList() async {
     List<Widget> serverElements = [];
     List serverList = await searchServer(_inputController.text);
-    print(serverList);
     serverList.forEach((server) {
       serverElements.add(_convertToServerElement(server));
     });
@@ -118,9 +104,6 @@ class _SearchServerListState extends State<SearchServerList> {
   GestureDetector _convertToServerElement(Map server) {
     int serverId = server["server_id"];
     String serverName = server["server_name"];
-    String serverUrl = server["server_url"];
-    String serverDescription = server["server_description"];
-    int serverCreator = server["user_id"];
     List serverLike = server["like"];
 
     List serverTagNames = [];
@@ -140,15 +123,15 @@ class _SearchServerListState extends State<SearchServerList> {
         );
       },
       child: Container(
-        margin: EdgeInsets.all(10),
+        margin: const EdgeInsets.all(10),
         width: 365.0,
         height: 95.0,
         decoration: BoxDecoration(
           color: const Color(0xffffffff),
           borderRadius: BorderRadius.circular(29.0),
-          boxShadow: [
+          boxShadow: const [
             BoxShadow(
-              color: const Color(0x29000000),
+              color: Color(0x29000000),
               offset: Offset(0, 3),
               blurRadius: 6,
             ),
@@ -159,21 +142,21 @@ class _SearchServerListState extends State<SearchServerList> {
             Flexible(
               flex: 9,
               child: Container(
-                padding: EdgeInsets.all(20),
+                padding: const EdgeInsets.all(20),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     Text(
                       serverName.toString(),
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                     Text(
                       serverTagNames.toString(),
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 12,
                         color: Colors.black54,
                       ),
@@ -189,10 +172,10 @@ class _SearchServerListState extends State<SearchServerList> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(Icons.favorite_border, size: 15),
+                    const Icon(Icons.favorite_border, size: 15),
                     Text(
                       serverLike.length.toString(),
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 15,
                         color: Colors.black54,
                       ),
@@ -205,7 +188,7 @@ class _SearchServerListState extends State<SearchServerList> {
               flex: 2,
               child: Container(
                 alignment: Alignment.center,
-                child: Icon(Icons.keyboard_arrow_right, size: 30),
+                child: const Icon(Icons.keyboard_arrow_right, size: 30),
               ),
             ),
           ],

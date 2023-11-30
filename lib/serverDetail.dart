@@ -26,7 +26,7 @@ class _ServerDetailState extends State<ServerDetail> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           'Server Info',
           style: TextStyle(
             color: Colors.white,
@@ -35,14 +35,14 @@ class _ServerDetailState extends State<ServerDetail> {
           ),
         ),
         elevation: 0.0,
-        backgroundColor: Color(0xff5865f2),
+        backgroundColor: const Color(0xff5865f2),
       ),
       body: FutureBuilder(
         future: _getServerDetail(widget.serverId),
         builder: (context, snapshot) {
           //해당 부분은 data를 아직 받아 오지 못했을 때 실행되는 부분
           if (snapshot.hasData == false) {
-            return CircularProgressIndicator(); // CircularProgressIndicator : 로딩 에니메이션
+            return const CircularProgressIndicator(); // CircularProgressIndicator : 로딩 에니메이션
           }
 
           //error가 발생하게 될 경우 반환하게 되는 부분
@@ -51,7 +51,7 @@ class _ServerDetailState extends State<ServerDetail> {
               padding: const EdgeInsets.all(8.0),
               child: Text(
                 'Error: ${snapshot.error}', // 에러명을 텍스트에 뿌려줌
-                style: TextStyle(fontSize: 15),
+                style: const TextStyle(fontSize: 15),
               ),
             );
           }
@@ -109,7 +109,7 @@ class _ServerDetailState extends State<ServerDetail> {
     ); // 간접적으로 Edit 버튼 활성여부 결정
 
     return Container(
-      margin: EdgeInsets.all(16),
+      margin: const EdgeInsets.all(16),
       child: Column(
         children: [
           Flexible(
@@ -118,15 +118,15 @@ class _ServerDetailState extends State<ServerDetail> {
               decoration: BoxDecoration(
                 color: const Color(0xffffffff),
                 borderRadius: BorderRadius.circular(29.0),
-                boxShadow: [
+                boxShadow: const [
                   BoxShadow(
-                    color: const Color(0x29000000),
+                    color: Color(0x29000000),
                     offset: Offset(0, 3),
                     blurRadius: 6,
                   ),
                 ],
               ),
-              padding: EdgeInsets.fromLTRB(15, 0, 10, 0),
+              padding: const EdgeInsets.fromLTRB(15, 0, 10, 0),
               child: Column(
                 children: [
                   Flexible(
@@ -143,11 +143,11 @@ class _ServerDetailState extends State<ServerDetail> {
                                   _editServerButton(),
                                 ],
                               )
-                            : Row(),
+                            : const Row(),
                         Text(
                           serverName.toString(),
                           textAlign: TextAlign.center,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 28,
                             fontWeight: FontWeight.bold,
                           ),
@@ -155,7 +155,7 @@ class _ServerDetailState extends State<ServerDetail> {
                         Text(
                           serverTagNames.toString(),
                           textAlign: TextAlign.center,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 12,
                             color: Colors.black54,
                           ),
@@ -167,33 +167,31 @@ class _ServerDetailState extends State<ServerDetail> {
                     flex: 3,
                     child: Container(
                       alignment: Alignment.center,
-                      child: Container(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            Flexible(
-                              flex: 1,
-                              child: Text(
-                                '서버 설명',
-                                textAlign: TextAlign.start,
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          const Flexible(
+                            flex: 1,
+                            child: Text(
+                              '서버 설명',
+                              textAlign: TextAlign.start,
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
                               ),
                             ),
-                            Flexible(
-                              flex: 9,
-                              child: Text(
-                                serverDescription,
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  color: Colors.black,
-                                ),
+                          ),
+                          Flexible(
+                            flex: 9,
+                            child: Text(
+                              serverDescription,
+                              style: const TextStyle(
+                                fontSize: 16,
+                                color: Colors.black,
                               ),
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
                   ),
@@ -206,7 +204,7 @@ class _ServerDetailState extends State<ServerDetail> {
                         children: [
                           Text(
                             '$likeCount',
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 20,
                               color: Colors.black,
                             ),
@@ -250,8 +248,8 @@ class _ServerDetailState extends State<ServerDetail> {
                       //모서리를 둥글게
                       borderRadius: BorderRadius.circular(20),
                     ),
-                    backgroundColor: Color(0xff5865f2),
-                    minimumSize: Size.fromHeight(50),
+                    backgroundColor: const Color(0xff5865f2),
+                    minimumSize: const Size.fromHeight(50),
                   ),
                   child: const Text(
                     'Add Server',

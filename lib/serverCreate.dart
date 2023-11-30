@@ -17,7 +17,7 @@ class _ServerCreateState extends State<ServerCreate> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           'Server Create',
           style: TextStyle(
             color: Colors.white,
@@ -26,11 +26,10 @@ class _ServerCreateState extends State<ServerCreate> {
           ),
         ),
         elevation: 0.0,
-        backgroundColor: Color(0xff5865f2),
+        backgroundColor: const Color(0xff5865f2),
       ),
       body: Container(
-        // TODO: Title TextField, Tag TextField, Description Textfield, URL TextField, Add Server Button
-        margin: EdgeInsets.all(16),
+        margin: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -41,9 +40,9 @@ class _ServerCreateState extends State<ServerCreate> {
                 decoration: BoxDecoration(
                   color: const Color(0xffffffff),
                   borderRadius: BorderRadius.circular(29.0),
-                  boxShadow: [
+                  boxShadow: const [
                     BoxShadow(
-                      color: const Color(0x29000000),
+                      color: Color(0x29000000),
                       offset: Offset(0, 3),
                       blurRadius: 6,
                     ),
@@ -144,8 +143,8 @@ class _ServerCreateState extends State<ServerCreate> {
                         //모서리를 둥글게
                         borderRadius: BorderRadius.circular(20),
                       ),
-                      backgroundColor: Color(0xff5865f2),
-                      minimumSize: Size.fromHeight(50),
+                      backgroundColor: const Color(0xff5865f2),
+                      minimumSize: const Size.fromHeight(50),
                     ),
                     child: const Text(
                       'Add Server',
