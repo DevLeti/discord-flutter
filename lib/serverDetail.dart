@@ -1,5 +1,6 @@
-import 'package:flutter/material.dart';
+import 'package:discord_flutter/serverEdit.dart';
 import 'package:discord_flutter/API.dart';
+import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ServerDetail extends StatefulWidget {
@@ -26,7 +27,7 @@ class _ServerDetailState extends State<ServerDetail> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text(
-          'Server Information',
+          'Server Info',
           style: TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,
@@ -125,7 +126,7 @@ class _ServerDetailState extends State<ServerDetail> {
                   ),
                 ],
               ),
-              padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+              padding: EdgeInsets.fromLTRB(15, 0, 10, 0),
               child: Column(
                 children: [
                   Flexible(
@@ -134,6 +135,15 @@ class _ServerDetailState extends State<ServerDetail> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
+                        isOwner
+                            ? Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  _deleteServerButton(),
+                                  _editServerButton(),
+                                ],
+                              )
+                            : Row(),
                         Text(
                           serverName.toString(),
                           textAlign: TextAlign.center,
@@ -257,6 +267,56 @@ class _ServerDetailState extends State<ServerDetail> {
           ),
         ],
       ),
+    );
+  }
+
+  IconButton _deleteServerButton() {
+    return IconButton(
+      icon: const Icon(Icons.delete_forever),
+      onPressed: () {
+        showDialog(
+          context: context,
+          builder: (BuildContext ctx) {
+            return AlertDialog(
+              content: const Text("서버를 삭제 하시겠습니까?"),
+              actions: [
+                TextButton(
+                  child: const Text('취소'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+                TextButton(
+                  child: const Text(
+                    '확인',
+                    style: TextStyle(
+                        color: Colors.red, fontWeight: FontWeight.bold),
+                  ),
+                  onPressed: () {
+                    deleteServer(widget.serverId);
+                    Navigator.of(context).pop();
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          },
+        );
+      },
+    );
+  }
+
+  IconButton _editServerButton() {
+    return IconButton(
+      icon: const Icon(Icons.edit),
+      onPressed: () {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (BuildContext context) =>
+                ServerEdit(serverId: widget.serverId),
+          ),
+        );
+      },
     );
   }
 }
