@@ -17,7 +17,7 @@ class _ServerDetailState extends State<ServerDetail> {
   int serverCreator = -1;
   List serverLike = [];
   int likeCount = -1;
-  bool liked = false;
+  bool isLiked = false;
 
   @override
   Widget build(BuildContext context) {
@@ -69,21 +69,21 @@ class _ServerDetailState extends State<ServerDetail> {
     return serverDetail;
   }
 
-  // Server에 Like 추가/삭제 요청, like 버튼 setState by change liked variable
+  // Server에 Like 추가/삭제 요청, like 버튼 setState by change isLiked variable
   void _changeLikeState() async {
-    if (liked == true) {
+    if (isLiked == true) {
       await deleteLike(widget.serverId);
     } else {
       await createLike(widget.serverId);
     }
     setState(() {
-      if (liked == true) {
-        liked = false;
+      if (isLiked == true) {
+        isLiked = false;
       } else {
-        liked = true;
+        isLiked = true;
       }
     });
-    print(liked);
+    print(isLiked);
   }
 
   Container _convertToServerElement(Map server) {
@@ -95,7 +95,7 @@ class _ServerDetailState extends State<ServerDetail> {
 
     serverLike = server["like"];
     likeCount = serverLike.length;
-    liked = (server["user_liked"] == "y") ? true : false;
+    isLiked = (server["user_liked"] == "y") ? true : false;
 
     List serverTagNames = [];
     List serverTag = server["tag"];
@@ -202,7 +202,7 @@ class _ServerDetailState extends State<ServerDetail> {
                               color: Colors.black,
                             ),
                           ),
-                          liked
+                          isLiked
                               ? IconButton(
                                   icon: const Icon(
                                     Icons.favorite,
