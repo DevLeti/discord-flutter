@@ -62,11 +62,11 @@ class _ServerListState extends State<ServerList> {
             ),
           );
         },
+        backgroundColor: const Color(0xff5865f2),
         child: const Icon(
           Icons.add,
           size: 30,
         ),
-        backgroundColor: Color(0xff5865f2),
       ),
       body: FutureBuilder(
         future: _initServerList(),
@@ -76,7 +76,7 @@ class _ServerListState extends State<ServerList> {
             case ConnectionState.waiting:
             case ConnectionState.active:
               {
-                return Center(
+                return const Center(
                   child: Text('Loading...'),
                 );
               }
@@ -122,9 +122,6 @@ class _ServerListState extends State<ServerList> {
   GestureDetector _convertToServerElement(Map server) {
     int serverId = server["server_id"];
     String serverName = server["server_name"];
-    String serverUrl = server["server_url"];
-    String serverDescription = server["server_description"];
-    int serverCreator = server["user_id"];
     List serverLike = server["like"];
 
     List serverTagNames = [];
@@ -144,15 +141,15 @@ class _ServerListState extends State<ServerList> {
         );
       },
       child: Container(
-        margin: EdgeInsets.all(10),
+        margin: const EdgeInsets.all(10),
         width: 365.0,
         height: 95.0,
         decoration: BoxDecoration(
           color: const Color(0xffffffff),
           borderRadius: BorderRadius.circular(29.0),
-          boxShadow: [
+          boxShadow: const [
             BoxShadow(
-              color: const Color(0x29000000),
+              color: Color(0x29000000),
               offset: Offset(0, 3),
               blurRadius: 6,
             ),
@@ -163,7 +160,7 @@ class _ServerListState extends State<ServerList> {
             Flexible(
               flex: 9,
               child: Container(
-                padding: EdgeInsets.all(20),
+                padding: const EdgeInsets.all(20),
                 // color: Colors.deepPurple,
                 // padding: ,
                 child: Column(
@@ -172,14 +169,14 @@ class _ServerListState extends State<ServerList> {
                   children: [
                     Text(
                       serverName.toString(),
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                     Text(
                       serverTagNames.toString(),
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 12,
                         color: Colors.black54,
                       ),
@@ -196,10 +193,10 @@ class _ServerListState extends State<ServerList> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(Icons.favorite_border, size: 15),
+                    const Icon(Icons.favorite_border, size: 15),
                     Text(
                       serverLike.length.toString(),
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 15,
                         color: Colors.black54,
                       ),
@@ -213,7 +210,7 @@ class _ServerListState extends State<ServerList> {
               child: Container(
                 // color: Colors.blueAccent,
                 alignment: Alignment.center,
-                child: Icon(Icons.keyboard_arrow_right, size: 30),
+                child: const Icon(Icons.keyboard_arrow_right, size: 30),
               ),
             ),
           ],
