@@ -133,13 +133,11 @@ class _ServerCreateState extends State<ServerCreate> {
                           serverUrl.text,
                           serverDescription.text,
                           serverTag.text.split(' '));
-                      Navigator.of(context).pop();
-                      // if (result.isNotEmpty) {
-                      //   _showSuccessAlert();
-                      //   Navigator.of(context).pop();
-                      // } else {
-                      //   _showFailAlert();
-                      // }
+                      if (result.isNotEmpty) {
+                        _showSuccessAlert();
+                      } else {
+                        _showFailAlert();
+                      }
                     },
                     style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(
@@ -177,7 +175,8 @@ class _ServerCreateState extends State<ServerCreate> {
             TextButton(
               child: const Text('확인'),
               onPressed: () {
-                Navigator.of(context).pop();
+                Navigator.of(context).pop(); // Pop AlertDialog
+                Navigator.of(context).pop(); // Pop serverCreate
               },
             ),
           ],
