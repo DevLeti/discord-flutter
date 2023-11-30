@@ -1,17 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:discord_flutter/API.dart';
 import 'package:discord_flutter/serverDetail.dart';
-import 'package:discord_flutter/searchServerList.dart';
-import 'package:discord_flutter/serverCreate.dart';
-import 'package:discord_flutter/serverLikeList.dart';
-import 'package:discord_flutter/serverMyList.dart';
 
-class ServerList extends StatefulWidget {
+class ServerMyList extends StatefulWidget {
   @override
-  State<ServerList> createState() => _ServerListState();
+  State<ServerMyList> createState() => _ServerMyListState();
 }
 
-class _ServerListState extends State<ServerList> {
+class _ServerMyListState extends State<ServerMyList> {
   List<Widget> _serverList = [];
   @override
   Widget build(BuildContext context) {
@@ -19,7 +15,7 @@ class _ServerListState extends State<ServerList> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         title: const Text(
-          'Server List',
+          'My Server List',
           style: TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,
@@ -29,44 +25,6 @@ class _ServerListState extends State<ServerList> {
         elevation: 0.0,
         backgroundColor: const Color(0xff5865f2),
         // centerTitle: true,
-        leading: Builder(
-          builder: (BuildContext context) {
-            return IconButton(
-              icon: const Icon(Icons.menu),
-              onPressed: () {
-                Scaffold.of(context).openDrawer();
-              },
-              tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
-            );
-          },
-        ),
-        actions: <Widget>[
-          IconButton(
-            icon: const Icon(Icons.search),
-            onPressed: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (BuildContext context) => SearchServerList(),
-                ),
-              );
-            },
-          ),
-        ],
-      ),
-      drawer: _getDrawerWidget(),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (BuildContext context) => ServerCreate(),
-            ),
-          );
-        },
-        child: const Icon(
-          Icons.add,
-          size: 30,
-        ),
-        backgroundColor: Color(0xff5865f2),
       ),
       body: FutureBuilder(
         future: _initServerList(),
@@ -103,7 +61,9 @@ class _ServerListState extends State<ServerList> {
     List<Widget> serverElements = [];
     List serverList = await getServerList();
     serverList.forEach((server) {
-      serverElements.add(_convertToServerElement(server));
+      if (server["is_owner"] == "y") {
+        serverElements.add(_convertToServerElement(server));
+      }
     });
     _serverList = serverElements;
   }
@@ -112,7 +72,9 @@ class _ServerListState extends State<ServerList> {
     List<Widget> serverElements = [];
     List serverList = await getServerList();
     serverList.forEach((server) {
-      serverElements.add(_convertToServerElement(server));
+      if (server["user_liked"] == "y") {
+        serverElements.add(_convertToServerElement(server));
+      }
     });
     setState(() {
       _serverList = serverElements;
@@ -243,22 +205,14 @@ class _ServerListState extends State<ServerList> {
             leading: const Icon(Icons.favorite),
             title: const Text('Liked Server(s)'),
             onTap: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (BuildContext context) => ServerLikeList(),
-                ),
-              );
+              setState(() {});
             },
           ),
           ListTile(
             leading: const Icon(Icons.menu_book_rounded),
             title: const Text('My Server(s)'),
             onTap: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (BuildContext context) => ServerMyList(),
-                ),
-              );
+              setState(() {});
             },
           ),
         ],
