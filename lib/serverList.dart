@@ -43,24 +43,26 @@ class _ServerListState extends State<ServerList> {
         actions: <Widget>[
           IconButton(
             icon: const Icon(Icons.search),
-            onPressed: () {
-              Navigator.of(context).push(
+            onPressed: () async {
+              await Navigator.of(context).push(
                 MaterialPageRoute(
                   builder: (BuildContext context) => SearchServerList(),
                 ),
               );
+              setState(() {}); // Refresh list
             },
           ),
         ],
       ),
       drawer: _getDrawerWidget(),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.of(context).push(
+        onPressed: () async {
+          await Navigator.of(context).push(
             MaterialPageRoute(
               builder: (BuildContext context) => ServerCreate(),
             ),
           );
+          setState(() {}); // Refresh list
         },
         backgroundColor: const Color(0xff5865f2),
         child: const Icon(
@@ -83,7 +85,6 @@ class _ServerListState extends State<ServerList> {
             case ConnectionState.done:
               {
                 return RefreshIndicator(
-                  // key: _refreshIndicatorKey,
                   onRefresh: _refreshServerList,
                   child: ListView.builder(
                     itemCount: _serverList.length,
@@ -133,12 +134,13 @@ class _ServerListState extends State<ServerList> {
     );
 
     return GestureDetector(
-      onTap: () {
-        Navigator.of(context).push(
+      onTap: () async {
+        await Navigator.of(context).push(
           MaterialPageRoute(
             builder: (BuildContext context) => ServerDetail(serverId: serverId),
           ),
         );
+        setState(() {}); // Refresh list
       },
       child: Container(
         margin: const EdgeInsets.all(10),
@@ -161,8 +163,6 @@ class _ServerListState extends State<ServerList> {
               flex: 9,
               child: Container(
                 padding: const EdgeInsets.all(20),
-                // color: Colors.deepPurple,
-                // padding: ,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -188,7 +188,6 @@ class _ServerListState extends State<ServerList> {
             Flexible(
               flex: 2,
               child: Container(
-                // color: Colors.amber,
                 alignment: Alignment.centerRight,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -208,7 +207,6 @@ class _ServerListState extends State<ServerList> {
             Flexible(
               flex: 2,
               child: Container(
-                // color: Colors.blueAccent,
                 alignment: Alignment.center,
                 child: const Icon(Icons.keyboard_arrow_right, size: 30),
               ),
@@ -239,23 +237,25 @@ class _ServerListState extends State<ServerList> {
           ListTile(
             leading: const Icon(Icons.favorite),
             title: const Text('Liked Server(s)'),
-            onTap: () {
-              Navigator.of(context).push(
+            onTap: () async {
+              await Navigator.of(context).push(
                 MaterialPageRoute(
                   builder: (BuildContext context) => ServerLikeList(),
                 ),
               );
+              setState(() {}); // Refresh list
             },
           ),
           ListTile(
             leading: const Icon(Icons.menu_book_rounded),
             title: const Text('My Server(s)'),
-            onTap: () {
-              Navigator.of(context).push(
+            onTap: () async {
+              await Navigator.of(context).push(
                 MaterialPageRoute(
                   builder: (BuildContext context) => ServerMyList(),
                 ),
               );
+              setState(() {}); // Refresh list
             },
           ),
         ],
