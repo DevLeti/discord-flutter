@@ -130,29 +130,27 @@ class _ServerDetailState extends State<ServerDetail> {
                 children: [
                   Flexible(
                     flex: 1,
-                    child: Container(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          Text(
-                            serverName.toString(),
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 28,
-                              fontWeight: FontWeight.bold,
-                            ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Text(
+                          serverName.toString(),
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 28,
+                            fontWeight: FontWeight.bold,
                           ),
-                          Text(
-                            serverTagNames.toString(),
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 12,
-                              color: Colors.black54,
-                            ),
+                        ),
+                        Text(
+                          serverTagNames.toString(),
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Colors.black54,
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
                   Flexible(
