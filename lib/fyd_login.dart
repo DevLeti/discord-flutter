@@ -22,7 +22,7 @@ class FYDLogin extends StatelessWidget {
               height: 50.0,
               child:
                   // Adobe XD layer: 'PW Button' (component)
-                  FYDPWButton(),
+                  FYDRegisterButton(),
             ),
           ),
           Transform.translate(

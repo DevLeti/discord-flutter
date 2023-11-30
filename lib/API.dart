@@ -221,7 +221,7 @@ Future<Map> createServer(String serverName, String serverUrl,
     "server_url": serverUrl,
     "server_description": serverDescription
   });
-  print('Response status: ${response.statusCode}');
+  // print('Response status: ${response.statusCode}');
   // print('Response body: ${response.body}');
 
   if (response.statusCode == 201) {
@@ -321,9 +321,9 @@ Future<int> createTag(int serverId, String tagName) async {
   var response = await http.post(url,
       headers: {"Authorization": 'Bearer $token'},
       body: {"server_id": serverId.toString(), "tag_name": tagName});
-  print('Response status: ${response.statusCode}');
-  var responseBody = jsonDecode(utf8.decode(response.bodyBytes));
-  print('Response body: ${responseBody}');
+  // print('Response status: ${response.statusCode}');
+  // var responseBody = jsonDecode(utf8.decode(response.bodyBytes));
+  // print('Response body: ${responseBody}');
 
   return response.statusCode;
 }
