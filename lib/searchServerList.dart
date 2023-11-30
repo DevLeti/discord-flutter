@@ -115,12 +115,13 @@ class _SearchServerListState extends State<SearchServerList> {
     );
 
     return GestureDetector(
-      onTap: () {
-        Navigator.of(context).push(
+      onTap: () async {
+        await Navigator.of(context).push(
           MaterialPageRoute(
             builder: (BuildContext context) => ServerDetail(serverId: serverId),
           ),
         );
+        setState(() {}); // Refresh list
       },
       child: Container(
         margin: const EdgeInsets.all(10),

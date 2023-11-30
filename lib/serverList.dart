@@ -43,30 +43,32 @@ class _ServerListState extends State<ServerList> {
         actions: <Widget>[
           IconButton(
             icon: const Icon(Icons.search),
-            onPressed: () {
-              Navigator.of(context).push(
+            onPressed: () async {
+              await Navigator.of(context).push(
                 MaterialPageRoute(
                   builder: (BuildContext context) => SearchServerList(),
                 ),
               );
+              setState(() {}); // Refresh list
             },
           ),
         ],
       ),
       drawer: _getDrawerWidget(),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.of(context).push(
+        onPressed: () async {
+          await Navigator.of(context).push(
             MaterialPageRoute(
               builder: (BuildContext context) => ServerCreate(),
             ),
           );
+          setState(() {}); // Refresh list
         },
+        backgroundColor: const Color(0xff5865f2),
         child: const Icon(
           Icons.add,
           size: 30,
         ),
-        backgroundColor: Color(0xff5865f2),
       ),
       body: FutureBuilder(
         future: _initServerList(),
@@ -76,14 +78,13 @@ class _ServerListState extends State<ServerList> {
             case ConnectionState.waiting:
             case ConnectionState.active:
               {
-                return Center(
+                return const Center(
                   child: Text('Loading...'),
                 );
               }
             case ConnectionState.done:
               {
                 return RefreshIndicator(
-                  // key: _refreshIndicatorKey,
                   onRefresh: _refreshServerList,
                   child: ListView.builder(
                     itemCount: _serverList.length,
@@ -122,9 +123,6 @@ class _ServerListState extends State<ServerList> {
   GestureDetector _convertToServerElement(Map server) {
     int serverId = server["server_id"];
     String serverName = server["server_name"];
-    String serverUrl = server["server_url"];
-    String serverDescription = server["server_description"];
-    int serverCreator = server["user_id"];
     List serverLike = server["like"];
 
     List serverTagNames = [];
@@ -136,23 +134,24 @@ class _ServerListState extends State<ServerList> {
     );
 
     return GestureDetector(
-      onTap: () {
-        Navigator.of(context).push(
+      onTap: () async {
+        await Navigator.of(context).push(
           MaterialPageRoute(
             builder: (BuildContext context) => ServerDetail(serverId: serverId),
           ),
         );
+        setState(() {}); // Refresh list
       },
       child: Container(
-        margin: EdgeInsets.all(10),
+        margin: const EdgeInsets.all(10),
         width: 365.0,
         height: 95.0,
         decoration: BoxDecoration(
           color: const Color(0xffffffff),
           borderRadius: BorderRadius.circular(29.0),
-          boxShadow: [
+          boxShadow: const [
             BoxShadow(
-              color: const Color(0x29000000),
+              color: Color(0x29000000),
               offset: Offset(0, 3),
               blurRadius: 6,
             ),
@@ -163,23 +162,21 @@ class _ServerListState extends State<ServerList> {
             Flexible(
               flex: 9,
               child: Container(
-                padding: EdgeInsets.all(20),
-                // color: Colors.deepPurple,
-                // padding: ,
+                padding: const EdgeInsets.all(20),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     Text(
                       serverName.toString(),
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                     Text(
                       serverTagNames.toString(),
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 12,
                         color: Colors.black54,
                       ),
@@ -191,15 +188,14 @@ class _ServerListState extends State<ServerList> {
             Flexible(
               flex: 2,
               child: Container(
-                // color: Colors.amber,
                 alignment: Alignment.centerRight,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(Icons.favorite_border, size: 15),
+                    const Icon(Icons.favorite_border, size: 15),
                     Text(
                       serverLike.length.toString(),
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 15,
                         color: Colors.black54,
                       ),
@@ -211,9 +207,8 @@ class _ServerListState extends State<ServerList> {
             Flexible(
               flex: 2,
               child: Container(
-                // color: Colors.blueAccent,
                 alignment: Alignment.center,
-                child: Icon(Icons.keyboard_arrow_right, size: 30),
+                child: const Icon(Icons.keyboard_arrow_right, size: 30),
               ),
             ),
           ],
@@ -242,23 +237,25 @@ class _ServerListState extends State<ServerList> {
           ListTile(
             leading: const Icon(Icons.favorite),
             title: const Text('Liked Server(s)'),
-            onTap: () {
-              Navigator.of(context).push(
+            onTap: () async {
+              await Navigator.of(context).push(
                 MaterialPageRoute(
                   builder: (BuildContext context) => ServerLikeList(),
                 ),
               );
+              setState(() {}); // Refresh list
             },
           ),
           ListTile(
             leading: const Icon(Icons.menu_book_rounded),
             title: const Text('My Server(s)'),
-            onTap: () {
-              Navigator.of(context).push(
+            onTap: () async {
+              await Navigator.of(context).push(
                 MaterialPageRoute(
                   builder: (BuildContext context) => ServerMyList(),
                 ),
               );
+              setState(() {}); // Refresh list
             },
           ),
         ],

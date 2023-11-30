@@ -21,11 +21,9 @@ Future<int> login(var username, var password) async {
   HttpClientResponse httpResponse;
 
   print("|-> Try Login");
-  // try {
   Map jsonContent = {'username': username, 'password': password};
   var content = jsonEncode(jsonContent);
   serverPath = "/api/login/";
-  // httpRequest = await httpClient.get(serverIp, serverPort, serverPath);
   httpRequest = await httpClient.post(serverIp, serverPort, serverPath)
     ..headers.contentType = ContentType.json
     ..headers.contentLength = content.length
@@ -53,7 +51,6 @@ Future<int> register(var username, var password, var password2) async {
   };
   var content = jsonEncode(jsonContent);
   serverPath = "/api/register/";
-  // httpRequest = await httpClient.get(serverIp, serverPort, serverPath);
   httpRequest = await httpClient.post(serverIp, serverPort, serverPath)
     ..headers.contentType = ContentType.json
     ..headers.contentLength = content.length
@@ -159,7 +156,6 @@ Future<Map> editServerDetail(int serverId, String serverName, String serverUrl,
   httpResponse = await httpRequest.close();
   httpResponseContent = await utf8.decoder.bind(httpResponse).join();
 
-  // var data = jsonDecode(httpResponseContent);
   if (httpResponse.statusCode == 200) {
     // Load old tags
     List oldTags = await getTagByServerId(serverId);
@@ -221,8 +217,6 @@ Future<Map> createServer(String serverName, String serverUrl,
     "server_url": serverUrl,
     "server_description": serverDescription
   });
-  // print('Response status: ${response.statusCode}');
-  // print('Response body: ${response.body}');
 
   if (response.statusCode == 201) {
     var serverInfo = jsonDecode(utf8.decode(response.bodyBytes));
@@ -401,10 +395,3 @@ Future<int> createLike(int serverId) async {
 }
 
 // End of Like API
-
-// void printHttpContentInfo(var httpResponse, var httpResponseContent) {
-//   print("|<- status-code    : ${httpResponse.statusCode}");
-//   print("|<- content-type   : ${httpResponse.headers.contentType}");
-//   print("|<- content-length : ${httpResponse.headers.contentLength}");
-//   print("|<- content        : $httpResponseContent");
-// }
