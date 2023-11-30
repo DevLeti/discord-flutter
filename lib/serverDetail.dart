@@ -166,6 +166,7 @@ class _ServerDetailState extends State<ServerDetail> {
                   Flexible(
                     flex: 3,
                     child: Container(
+                      padding: const EdgeInsets.only(top: 20),
                       alignment: Alignment.center,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
