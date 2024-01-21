@@ -8,7 +8,6 @@
 
 - 23-2 Fullstack service programming term project.
 - 2023.09 ~ 2023.12
--
 
 ## 프로젝트 소개
 
@@ -29,6 +28,18 @@ FYD(Fit Your Discord)는 이 이유로 만들어졌습니다! FYD로 여러분�
    - 좋아요 버튼을 누른 서버만 모아서 볼 수도 있답니다.
 3. 검색 기능
    - 서버명/태그 검색을 통해 원하는 서버를 빠르게 찾아보아요.
+
+## 기술 스택
+
+- 환경
+  - Visual Studio Code
+  - Git
+  - Github
+- 개발
+  - Flutter/Dart
+  - Material UI
+- UI Design Tool
+  - Adobe XD
 
 ## 스크린샷
 
