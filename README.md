@@ -1,6 +1,5 @@
-# discord_flutter(fit your discord, FYD)
-
 <p align="center"><img src="img/Logo.png" height="300px", width="300px"></p>
+<p align="center" style="font-weight:bold; font-size:15pt">Fit Your Discord!</p>
 
 ## 프로젝트 정보
 
@@ -45,6 +44,7 @@ FYD(Fit Your Discord)는 이 이유로 만들어졌습니다! FYD로 여러분�
 
 ![FYD_Screenshot](img/FYD_Screenshot.png)
 
-## 관련 Repository
+## 관련 링크
 
-- [FYD Backend Github Repository](https://github.com/DevLeti/fyd-backend)
+- [FYD Backend Repo(Github)](https://github.com/DevLeti/fyd-backend)
+- [Demo Video(Youtube, Korean)](https://youtu.be/R_ejI1sXtXw)
