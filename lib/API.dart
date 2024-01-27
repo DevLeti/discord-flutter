@@ -4,10 +4,10 @@ import 'dart:convert';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 
-var serverIp = InternetAddress.loopbackIPv4.host;
-var serverIpWithPort = '127.0.0.1:8000';
-// var serverIp = "10.0.2.2"; // localhost for Android Simulator
+var serverIp =
+    Platform.isAndroid ? "10.0.2.2" : InternetAddress.loopbackIPv4.host;
 var serverPort = 8000;
+var serverIpWithPort = serverIp + ':${serverPort}';
 var serverPath;
 
 var httpClient = HttpClient();
